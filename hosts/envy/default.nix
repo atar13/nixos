@@ -1,7 +1,8 @@
+# HP-Envy Laptop specific configuration
 { config, pkgs, user, ...}:
 
 {
-	imports = (./hardware-configuration.nix);
+	imports = [./hardware-configuration.nix];
 	
 	boot = {                                  # Boot options
 	    kernelPackages = pkgs.linuxPackages_latest; # latest kernel. Needed for wifi adapter
@@ -13,9 +14,6 @@
 	      };
 	      systemd-boot = {                              
 					enable = true;
-					version = 2;
-					efiSupport = true;
-					useOSProber = true;                 # Find all boot options
 					configurationLimit = 5; 	    			# Display the 5 latest generations
 	      };
 	    };
@@ -37,9 +35,8 @@
 	    auto-cpufreq.enable = true;
 	    #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
 	    blueman.enable = true;
-	    printing = {                            # Printing and drivers for TS5300
+	    printing = {                            # Printing 
 	      enable = true;
-	      drivers = [ pkgs.cnijfilter2 ];
 	    };
 	    avahi = {                               # Needed to find wireless printer
 	      enable = true;
