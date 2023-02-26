@@ -1,0 +1,71 @@
+{ config, pkgs, user, ...}:
+
+{
+	imports = (./hardware-configuration.nix);
+	
+	boot = {                                  # Boot options
+	    kernelPackages = pkgs.linuxPackages_latest; # latest kernel. Needed for wifi adapter
+
+	    loader = {                              # EFI Boot
+	      efi = {
+					canTouchEfiVariables = true;
+					efiSysMountPoint = "/boot/efi";
+	      };
+	      systemd-boot = {                              
+					enable = true;
+					version = 2;
+					efiSupport = true;
+					useOSProber = true;                 # Find all boot options
+					configurationLimit = 5; 	    			# Display the 5 latest generations
+	      };
+	    };
+	  };
+
+	  environment = {
+	    systemPackages = with pkgs; [
+	      simple-scan
+	    ];
+	  };
+
+	  programs = {                              # No xbacklight, this is the alterantive
+	    dconf.enable = true;
+	    light.enable = true;
+	  };
+
+	  services = {
+	    tlp.enable = true;                      # TLP and auto-cpufreq for power management
+	    auto-cpufreq.enable = true;
+	    #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
+	    blueman.enable = true;
+	    printing = {                            # Printing and drivers for TS5300
+	      enable = true;
+	      drivers = [ pkgs.cnijfilter2 ];
+	    };
+	    avahi = {                               # Needed to find wireless printer
+	      enable = true;
+	      nssmdns = true;
+	      publish = {                           # Needed for detecting the scanner
+		enable = true;
+		addresses = true;
+		userServices = true;
+	      };
+	    };
+	 #    samba = {
+	 #      enable = true;
+	 #      shares = {
+		# share = {
+		#   "path" = "/home/${user}";
+		#   "guest ok" = "no";
+		#   "read only" = "no";
+		# };
+	 #      };
+	 #      openFirewall = true;
+	 #    };
+	  };
+
+	  #temporary bluetooth fix
+	  systemd.tmpfiles.rules = [
+	    "d /var/lib/bluetooth 700 root root - -"
+	  ];
+	  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
+}
