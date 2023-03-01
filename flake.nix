@@ -20,29 +20,28 @@
       user = "atarbinian";
 
       lib = nixpkgs.lib;
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;                              # Allow proprietary software
+      };
     in
   { 
     nixosConfigurations = {
       ${hostname} = lib.nixosSystem {
       	inherit system; 
 	modules = [
-		# ./hosts
 		./hosts/envy
-		# ./hosts/configuration.nix
-		(import ./hosts/configuration.nix {
-			inherit lib nixpkgs system user;
+		(import ./config/configuration.nix {
+			inherit lib inputs nixpkgs pkgs system user;
 		})
 		home-manager.nixosModules.home-manager {
 			home-manager.useGlobalPkgs = true;
 			home-manager.useUserPackages = true;
-			# home-manager.users.${user} = import ./nixos/home-manager.nix;
+			home-manager.users.${user} = import ./config/home.nix {inherit pkgs lib user;};
 	  	}
 	];
       };
-      specialArgs = {
-      	inherit inputs;
-	inherit user;
-      };
+
     };
   };
 
