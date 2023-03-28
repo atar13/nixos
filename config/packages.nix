@@ -19,11 +19,15 @@ with pkgs; [
   kdenlive
   blender
   slack
+  timeshift
+  signal-desktop
 
   cmus
-  spotify
-  spicetify-cli
 
+  # shell utilities
+  lsd
+  zoxide
+  starship
   zsh-completions
   nix-zsh-completions
   coreutils-full
@@ -64,21 +68,38 @@ with pkgs; [
 
   luajit
   gcc
+  stdenv.cc.cc.lib
   cargo
 
-  neovim
   neovide
-  vimPlugins.packer-nvim
-  rnix-lsp
 
   texlive.combined.scheme-basic
 
-  # dmenu
-  (pkgs.callPackage /home/atarbinian/Pkgs/dmenu { })
   st
-  # dwmbar
+  scrot
+  (pkgs.callPackage /home/atarbinian/Pkgs/go-dwm-statusbar { })
+  (pkgs.callPackage /home/atarbinian/Pkgs/dmenu { })
+  i3lock-color
+  dwmbar
   lm_sensors
   picom-next
   feh
   networkmanagerapplet
+
+
+  taskwarrior
+  git-sizer
+  apostrophe
+  hugo
+
+  nodejs-16_x
+  openssl
+
+  go
+  #haskellPackages.ghcup
+  ghc
+  sumneko-lua-language-server
+  rnix-lsp
+  rust-analyzer
+  pkg-config-unwrapped
 ]

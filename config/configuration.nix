@@ -11,11 +11,13 @@ in
       # <home-manager/nixos>
       # ./envy
     ];
+  nixpkgs.config.allowUnfree = true;
+  #nixpkgs.config.allowBroken = true;
 
   users.users.${user} = {
     isNormalUser = true;
     description = "Anthony Tarbinian";
-    extraGroups = [ "networkmanager" "wheel" "video" "camera" "networkmanager" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "camera" "networkmanager" "docker" "libvirtd" ];
     shell = pkgs.zsh;
   };
 
@@ -32,6 +34,8 @@ in
   };
 
   #nix-store -q --references /run/current-system/sw | fzf TODO: add this to .zshrc later
+
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -85,6 +89,7 @@ in
   services = {
     xserver = {
       enable = true;
+      videoDrivers = [ "amdgpu" ];
       displayManager = {
         lightdm.enable = true;
         defaultSession = "none+dwm";
@@ -93,6 +98,10 @@ in
       windowManager.dwm.enable = true;
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
+  ];
 
   nixpkgs.config.packageOverrides = {
     dwm = pkgs.callPackage /home/atarbinian/Pkgs/dwm { };
@@ -145,20 +154,24 @@ in
 	touchpad.tapping = true;
   };
 
-  programs.neovim = {
-    enable = true;
-    configure = {
-      packages."packer.nvim" = with pkgs.vimPlugins; {
-        start = [ "packer.nvim" ];
-      };
-    };
-  };
+  #programs.neovim = {
+  #  enable = true;
+  #  configure = {
+  #    packages."packer.nvim" = with pkgs.vimPlugins; {
+  #      start = [ "packer.nvim" ];
+  #    };
+  #  };
+  #};
 
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
+        sessionVariables = {
+	  MOZ_USE_XINPUT2 = "1";
+	};
   	variables = {
+		XCURSOR_THEME = "Bibata-Modern-Classic";
   		TERMINAL = "kitty";
   		EDITOR = "nvim";
   		VISUAL = "nvim";
@@ -181,13 +194,52 @@ in
   	usbutils
   	curl
 
+	exfatprogs
+
 	xterm
 	xclip
 
   	imlib2
+	glib
+	glibc
+
+	virt-manager
+
+	neovim
 
 	# (pkgs.callPackage (import /home/atarbinian/Pkgs/dwm) {})
+	(vscode-with-extensions.override { vscodeExtensions = with vscode-extensions; [
+	      bbenoist.nix
+	      ms-python.python
+	      ms-azuretools.vscode-docker
+	      ms-vscode-remote.remote-ssh
+	      ms-vscode.cpptools
+	      vscodevim.vim
+	      piousdeer.adwaita-theme
+	      viktorqvarfordt.vscode-pitch-black-theme
+	    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+	 #      {
+		# name = "remote-ssh";
+		# publisher = "ms-vscode-remote";
+		# version = "0.101.2023032415";
+		# sha256 = "c+sCR+Zly5KiyQdQhGG0w+e+PHWICJfKaOPFbsdL7y8=";
+	 #      }
+	      {
+		name = "nix-env-selector";
+		publisher = "arrterian";
+		version = "1.0.9";
+		sha256 = "TkxqWZ8X+PAonzeXQ+sI9WI+XlqUHll7YyM7N9uErk0=";
+	      }
+	 #      {
+	 #      	name = "Heron.firefox-devtools-theme";
+		# version = "4.10.1";
+		# publisher = "HeronSilva";
+	 #      }
+	    ];
+	  })
+
   	];
+
   };
 
 
@@ -212,6 +264,24 @@ in
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
   services.flatpak.enable = true;
+
+  virtualisation.libvirtd.enable = true;
+programs.dconf.enable = true;
+virtualisation.spiceUSBRedirection.enable = true;
+
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver = "btrfs";
+
+hardware.opengl = {
+     enable = true;
+     extraPackages = with pkgs; [
+       libGL
+       libGLU
+     ];
+     setLdLibraryPath = true;
+   };
+
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

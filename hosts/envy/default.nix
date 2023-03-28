@@ -5,6 +5,7 @@
 	imports = [./hardware-configuration.nix];
 	
 	boot = {                                  # Boot options
+	    tmpOnTmpfs = true;
 	    kernelPackages = pkgs.linuxPackages_latest; # latest kernel. Needed for wifi adapter
 
 	    loader = {                              # EFI Boot
@@ -22,6 +23,7 @@
 	  environment = {
 	    systemPackages = with pkgs; [
 	      simple-scan
+	      acpi
 	    ];
 	  };
 
@@ -65,4 +67,13 @@
 	    "d /var/lib/bluetooth 700 root root - -"
 	  ];
 	  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
+	  hardware.bluetooth = {
+		  enable = true;
+		  settings = {
+			  General = {
+			    AutoEnable = true;
+			    DiscoverableTimeout = 0;
+			  };
+		};
+	  };
 }

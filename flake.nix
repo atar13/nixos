@@ -9,10 +9,11 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
+    spicetify-nix.url = github:the-argus/spicetify-nix;
 
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }: 
+  outputs = inputs @ { self, nixpkgs, home-manager, spicetify-nix, ... }: 
     let 
       system = "x86_64-linux";
       hostname = "envy-nixos";
@@ -23,6 +24,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;                              # Allow proprietary software
+	#config.allowBroken = true;
       };
     in
   { 
@@ -37,7 +39,7 @@
 		home-manager.nixosModules.home-manager {
 			home-manager.useGlobalPkgs = true;
 			home-manager.useUserPackages = true;
-			home-manager.users.${user} = import ./config/home.nix {inherit pkgs lib user;};
+			home-manager.users.${user} = import ./config/home.nix {inherit pkgs lib user spicetify-nix;};
 	  	}
 	];
       };
