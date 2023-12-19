@@ -1,22 +1,22 @@
-{pkgs ? import <nixpkgs> {}}:
+{ pkgs ? import <nixpkgs> { } }:
 (pkgs.buildFHSUserEnv {
   name = "python 3.8";
   targetPkgs = pkgs: (with pkgs; [
-	python38
-	pipenv
+    python38
+    pipenv
 
-	# LSP
-	python39Packages.python-lsp-server
+    # LSP
+    python39Packages.python-lsp-server
 
-	# C deps
-	glib
-	glibc
-	stdenv
-	zlib
+    # C deps
+    glib
+    glibc
+    stdenv
+    zlib
 
   ]);
-runScript = "zsh";
-profile = ''
+  runScript = "zsh";
+  profile = ''
     LD_LIBRARY_PATH=${pkgs.zlib}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.glibc}/lib:${pkgs.glib}/lib:${pkgs.cudaPackages_10_1.cudatoolkit}/lib:${pkgs.cudaPackages_10_1.cudatoolkit.lib}/lib:/run/opengl-driver/lib:/run/opengl-driver-32/lib:$LD_LIBRARY_PATH
     # set SOURCE_DATE_EPOCH so that we can use python wheels
     SOURCE_DATE_EPOCH=$(date +%s)

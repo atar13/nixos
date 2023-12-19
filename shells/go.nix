@@ -6,7 +6,7 @@ mkShell {
   buildInputs = with pkgs; [
     go
     golangci-lint
-		gotools
+    gotools
     # goimports
     # gocode
     # gotests

@@ -1,50 +1,61 @@
 {
   description = "personal NixOS configuration";
-  
+
   inputs = {
+    dotfiles = {
+      url = "github:atar13/dotfiles";
+      flake = false;
+    };
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     home-manager = {
-        url = "github:nix-community/home-manager";
-        inputs.nixpkgs.follows = "nixpkgs";
-      };
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    spicetify-nix.url = github:the-argus/spicetify-nix;
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    spicetify-nix.url = "github:the-argus/spicetify-nix";
 
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, spicetify-nix, ... }: 
-    let 
-      system = "x86_64-linux";
+  outputs = inputs @ { nixpkgs, home-manager, ... }:
+    let
+      username = "atarbinian";
       hostname = "envy-nixos";
-      dots = "$HOME/Pkgs/dotfiles";
-      user = "atarbinian";
-
-      lib = nixpkgs.lib;
+      system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true;                              # Allow proprietary software
-	#config.allowBroken = true;
+        config.allowUnfree = true; # Allow proprietary software
       };
     in
-  { 
-    nixosConfigurations = {
-      ${hostname} = lib.nixosSystem {
-      	inherit system; 
-	modules = [
-		./hosts/envy
-		(import ./config/configuration.nix {
-			inherit lib inputs nixpkgs pkgs system user;
-		})
-		home-manager.nixosModules.home-manager {
-			home-manager.useGlobalPkgs = true;
-			home-manager.useUserPackages = true;
-			home-manager.users.${user} = import ./config/home.nix {inherit pkgs lib user spicetify-nix;};
-	  	}
-	];
+    {
+      nixosConfigurations = {
+        ${hostname} = nixpkgs.lib.nixosSystem {
+          modules = [
+            (import ./hosts/envy { inherit pkgs; })
+            (import ./config {
+              inherit inputs pkgs username hostname;
+            })
+            home-manager.nixosModules.home-manager {
+              home-manager.users = {
+                ${username} = {...}: 
+                  {
+                    imports = [./home ];
+                  };
+              };
+              home-manager.extraSpecialArgs = {
+                inherit (inputs) dotfiles;
+                inherit (inputs) spicetify-nix;
+                inherit username;
+              };
+            }
+          ];
+        };
       };
-
     };
-  };
-
 }

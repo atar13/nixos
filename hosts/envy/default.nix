@@ -1,79 +1,74 @@
 # HP-Envy Laptop specific configuration
-{ config, pkgs, user, ...}:
-
+{ pkgs, ... }:
 {
-	imports = [./hardware-configuration.nix];
-	
-	boot = {                                  # Boot options
-	    tmpOnTmpfs = true;
-	    kernelPackages = pkgs.linuxPackages_latest; # latest kernel. Needed for wifi adapter
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-	    loader = {                              # EFI Boot
-	      efi = {
-					canTouchEfiVariables = true;
-					efiSysMountPoint = "/boot/efi";
-	      };
-	      systemd-boot = {                              
-					enable = true;
-					configurationLimit = 5; 	    			# Display the 5 latest generations
-	      };
-	    };
-	  };
 
-	  environment = {
-	    systemPackages = with pkgs; [
-	      simple-scan
-	      acpi
-	    ];
-	  };
+  boot = {
+    tmp.useTmpfs = true;
+    kernelPackages = pkgs.linuxPackages_latest; 
 
-	  programs = {                              # No xbacklight, this is the alterantive
-	    dconf.enable = true;
-	    light.enable = true;
-	  };
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 5; # Display the 5 latest nixos generations
+      };
+    };
+  };
 
-	  services = {
-	    tlp.enable = true;                      # TLP and auto-cpufreq for power management
-	    auto-cpufreq.enable = true;
-	    #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
-	    blueman.enable = true;
-	    printing = {                            # Printing 
-	      enable = true;
-	    };
-	    avahi = {                               # Needed to find wireless printer
-	      enable = true;
-	      nssmdns = true;
-	      publish = {                           # Needed for detecting the scanner
-		enable = true;
-		addresses = true;
-		userServices = true;
-	      };
-	    };
-	 #    samba = {
-	 #      enable = true;
-	 #      shares = {
-		# share = {
-		#   "path" = "/home/${user}";
-		#   "guest ok" = "no";
-		#   "read only" = "no";
-		# };
-	 #      };
-	 #      openFirewall = true;
-	 #    };
-	  };
+  environment = {
+    sessionVariables = {
+      MOZ_USE_XINPUT2 = "1";
+    };
+    systemPackages = with pkgs; [
+      acpi
+    ];
+  };
 
-	  #temporary bluetooth fix
-	  systemd.tmpfiles.rules = [
-	    "d /var/lib/bluetooth 700 root root - -"
-	  ];
-	  systemd.targets."bluetooth".after = ["systemd-tmpfiles-setup.service"];
-	  hardware.bluetooth = {
-		  enable = true;
-		  settings = {
-			  General = {
-			    AutoEnable = true;
-			    DiscoverableTimeout = 0;
-			  };
+  programs.light.enable = true;
+
+  services = {
+		xserver = {
+			videoDrivers = [ "amdgpu" ];
+			libinput = {
+				enable = true;
+				touchpad.naturalScrolling = true;
+				touchpad.tapping = true;
+			};
 		};
-	  };
+    # auto-cpufreq.enable = true; # don't use with powerprofiles daemon
+    power-profiles-daemon.enable = true;
+    #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
+    blueman.enable = true;
+    printing = {
+      enable = true;
+    };
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      publish = {
+        enable = true;
+        addresses = true;
+        userServices = true;
+      };
+    };
+  };
+
+  virtualisation.docker.storageDriver = "btrfs";
+
+  hardware.bluetooth = {
+    enable = true;
+    settings = {
+      General = {
+        AutoEnable = true;
+        DiscoverableTimeout = 0;
+      };
+    };
+  };
 }
