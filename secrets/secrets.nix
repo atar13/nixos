@@ -3,5 +3,4 @@ let
 
   users = [ atarbinian-envy-nixos ];
 in
-{
-}
+{ }

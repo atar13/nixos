@@ -1,5 +1,5 @@
 # Home configuration for all hosts
-{ config, lib, pkgs, username, dotfiles, spicetify-nix, ... }:
+{ pkgs, username, dotfiles, spicetify-nix, ... }:
 let
   browser = "firefox";
   spicetify-pkgs = spicetify-nix.packages.${pkgs.system}.default;

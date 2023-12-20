@@ -1,5 +1,5 @@
 # System configuration for all hosts
-{ inputs, pkgs, system, username, hostname, agenix, ... }:
+{ inputs, pkgs, system, username, hostname, ... }:
 {
   imports = [
     ./modules/vscode.nix
@@ -142,7 +142,7 @@
       (import ./packages/cli.nix { inherit pkgs; }) ++
       (import ./packages/gui.nix { inherit pkgs; }) ++
       (import ./packages/lib.nix { inherit pkgs; }) ++
-      [ agenix.packages.${system}.default ];
+      [ inputs.agenix.packages.${system}.default ];
   };
 
   programs.dconf.enable = true;

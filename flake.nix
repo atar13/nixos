@@ -25,39 +25,41 @@
 
   outputs = inputs @ { nixpkgs, home-manager, ... }:
     let
-      username = "atarbinian";
-      hostname = "envy-nixos";
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true; # Allow proprietary software
-      };
-    in
-    {
-      nixosConfigurations = {
-        ${hostname} = nixpkgs.lib.nixosSystem {
+      defaultUser = "atarbinian";
+
+      machines = [
+        { name = "envy"; system = "x86_64-linux"; users = [ defaultUser ]; }
+      ];
+
+      mkNixosConfig = machine :
+        let 
+          pkgs = import nixpkgs {
+            system = machine.system;
+            config.allowUnfree = true;
+          };
+        in nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
-            (import ./hosts/envy { inherit pkgs; })
+            (import ./hosts/${machine.name} { inherit pkgs; })
             (import ./config {
-              inherit (inputs) agenix;
-              inherit inputs pkgs system username hostname;
+              system = machine.system;
+              hostname = machine.name;
+              username = defaultUser;
+              inherit inputs pkgs;
             })
             home-manager.nixosModules.home-manager {
-              home-manager.users = {
-                ${username} = {...}: 
-                  {
-                    imports = [./home ];
-                  };
-              };
-              home-manager.extraSpecialArgs = {
-                inherit (inputs) dotfiles;
-                inherit (inputs) spicetify-nix;
-                inherit username;
-              };
+              home-manager.users = builtins.listToAttrs (builtins.map (username: { 
+                name = username; 
+                value = import ./home/${username} {
+                  inherit (inputs) dotfiles;
+                  inherit (inputs) spicetify-nix;
+                  inherit pkgs username;
+                }; 
+              }) machine.users);
             }
           ];
         };
-      };
+    in {
+      nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {name = machine.name; value = (mkNixosConfig machine);}) machines);
     };
 }
