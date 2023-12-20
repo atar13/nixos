@@ -1,10 +1,13 @@
 # Home configuration for all hosts
-{ lib, pkgs, username, dotfiles, spicetify-nix, ... }:
+{ config, lib, pkgs, username, dotfiles, spicetify-nix, ... }:
 let
   browser = "firefox";
   spicetify-pkgs = spicetify-nix.packages.${pkgs.system}.default;
 in
 {
+  imports = [
+    spicetify-nix.homeManagerModule
+  ];
   nixpkgs.config.allowUnfree = true;
   # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
   #   "spotify"
@@ -16,7 +19,8 @@ in
     spotify
   ];
 
-  home.shellAliases = { };
+  home.shellAliases = {
+  };
 
   home.file = {
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
@@ -52,10 +56,10 @@ in
   };
 
   home.pointerCursor = {
-    name = "Bibata-Modern-Classic";
+  	name = "Bibata-Modern-Classic";
     package = pkgs.bibata-cursors;
     gtk.enable = true;
-    x11.enable = true;
+  	x11.enable = true;
   };
 
   gtk = {
@@ -110,7 +114,6 @@ in
   services.udiskie.enable = true;
 
   # import the flake's module for your system
-  imports = [ spicetify-nix.homeManagerModule ];
 
   # # configure spicetify :)
   # programs.spicetify =

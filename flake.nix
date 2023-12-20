@@ -37,9 +37,11 @@
       nixosConfigurations = {
         ${hostname} = nixpkgs.lib.nixosSystem {
           modules = [
+            inputs.agenix.nixosModules.default
             (import ./hosts/envy { inherit pkgs; })
             (import ./config {
-              inherit inputs pkgs username hostname;
+              inherit (inputs) agenix;
+              inherit inputs pkgs system username hostname;
             })
             home-manager.nixosModules.home-manager {
               home-manager.users = {
