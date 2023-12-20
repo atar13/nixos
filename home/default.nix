@@ -82,12 +82,19 @@ in
     enable = true;
     aliases = {
       co = "checkout";
-      sb = "status"; # TODO: 
+      sb = "status -s";
+      l = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all";
+      b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'";
+
+      d = "diff --color-words";
+      ds = "diff --stat --color-words";
+      dc = "diff --cached --color-words";
+
     };
     extraConfig = {
-      core = {
-        editor = "nvim";
-      };
+      color.ui = true;
+      core.editor = "nvim";
+      push.autoSetupRemote = true;
     };
   };
 
