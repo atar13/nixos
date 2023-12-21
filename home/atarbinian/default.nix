@@ -31,13 +31,16 @@ in
     cmus.source = "${dotfiles}/cmus/.config/cmus";
     kitty.source = "${dotfiles}/kitty/.config/kitty";
     "starship.toml".source = "${dotfiles}/starship/.config/starship.toml";
-    tmux.source = "${dotfiles}/tmux/.config/tmux";
     nvim = {
       # needs to be recursive instead of symlink to get packer to work
       # https://github.com/nix-community/home-manager/issues/2282#issuecomment-903299819
       recursive = true;
       # source = "${dotfiles}/nvim/.config/nvim";
       source = "/home/${username}/dotfiles/nvim/.config/nvim";
+    };
+    tmux = {
+      recursive = true;
+      source = "${dotfiles}/tmux/.config/tmux";
     };
   };
 
