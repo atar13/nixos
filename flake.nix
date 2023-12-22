@@ -40,13 +40,13 @@
         in nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
-            (import ./hosts/${machine.name} { inherit pkgs; })
             (import ./config {
               system = machine.system;
               hostname = machine.name;
               username = defaultUser;
               inherit inputs pkgs;
             })
+            (import ./hosts/${machine.name} { inherit pkgs; })
             home-manager.nixosModules.home-manager {
               home-manager.users = builtins.listToAttrs (builtins.map (username: { 
                 name = username; 

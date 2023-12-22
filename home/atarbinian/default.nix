@@ -105,6 +105,14 @@ in
     };
   };
 
+  programs.ssh = {
+    enable = true;
+    matchBlocks."pi" = {
+      hostname = "10.0.0.1";
+      user = "atarbinian";
+    };
+  };
+
   services.flameshot.enable = true;
   services.flameshot.settings = {
     General = {

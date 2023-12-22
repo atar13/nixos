@@ -3,8 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./wg-client.nix
   ];
-
 
   boot = {
     tmp.useTmpfs = true;
