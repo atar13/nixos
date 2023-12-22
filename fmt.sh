@@ -1,3 +1,4 @@
 #!/bin/sh
 
-nixpkgs-fmt ./**/*.nix
+FILES=`find . -name '*.nix' -print`
+nixpkgs-fmt ${FILES} 
