@@ -31,35 +31,31 @@
         { name = "envy"; system = "x86_64-linux"; users = [ defaultUser ]; }
       ];
 
-      mkNixosConfig = machine :
-        let 
+      mkNixosConfig = machine:
+        let
           pkgs = import nixpkgs {
             system = machine.system;
             config.allowUnfree = true;
           };
-        in nixpkgs.lib.nixosSystem {
+        in
+        nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
-            (import ./config {
-              system = machine.system;
-              hostname = machine.name;
-              username = defaultUser;
-              inherit inputs pkgs;
-            })
-            (import ./hosts/${machine.name} { inherit pkgs; })
-            home-manager.nixosModules.home-manager {
-              home-manager.users = builtins.listToAttrs (builtins.map (username: { 
-                name = username; 
-                value = import ./home/${username} {
-                  inherit (inputs) dotfiles;
-                  inherit (inputs) spicetify-nix;
-                  inherit pkgs username;
-                }; 
-              }) machine.users);
+            ({ config, ...}: 
+              (import ./hosts/${machine.name} { inherit config inputs pkgs; hostname = machine.name; }))
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.users = builtins.listToAttrs (builtins.map
+                (username: {
+                  name = username;
+                  value = import ./hosts/${machine.name}/home/${username} { inherit inputs pkgs username; };
+                })
+                machine.users);
             }
           ];
         };
-    in {
-      nixosConfigurations = builtins.listToAttrs (builtins.map (machine: {name = machine.name; value = (mkNixosConfig machine);}) machines);
+    in
+    {
+      nixosConfigurations = builtins.listToAttrs (builtins.map (machine: { name = machine.name; value = (mkNixosConfig machine); }) machines);
     };
 }

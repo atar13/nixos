@@ -1,5 +1,5 @@
 { config, ... }:
-let 
+let
   interface-name = "wg0";
 
   endpoint-pk = "O/PnMwnoWHozT5oLcKJhYRw+h3+lCSRS/hr8DiHDoAM=";
@@ -8,7 +8,8 @@ let
 
   envy-ip = "10.0.0.9/32";
   envy-dns = "9.9.9.9";
-in {
+in
+{
   age.secrets.wg-private-envy.file = ../../secrets/wg-private-envy.age;
   environment.etc."NetworkManager/system-connections/wg0.nmconnection" = {
     # files must by owned by root with perms 0600 or networkmanager will ignore them
@@ -37,6 +38,6 @@ in {
       [ipv6]
       addr-gen-mode=default
       method=disabled
-      '';
+    '';
   };
 }
