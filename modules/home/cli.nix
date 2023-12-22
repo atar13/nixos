@@ -13,8 +13,8 @@
       # needs to be recursive instead of symlink to get packer to work
       # https://github.com/nix-community/home-manager/issues/2282#issuecomment-903299819
       recursive = true;
-      # source = "${dotfiles}/nvim/.config/nvim";
-      source = "/home/${username}/dotfiles/nvim/.config/nvim";
+      source = "${dotfiles}/nvim/.config/nvim";
+      # source = "/home/${username}/dotfiles/nvim/.config/nvim";
     };
     tmux = {
       recursive = true;
