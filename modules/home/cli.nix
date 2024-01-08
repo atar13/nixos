@@ -28,6 +28,8 @@
 
   programs.git = {
     enable = true;
+    userName = "Anthony Tarbinian";
+    userEmail = "atar137h@gmail.com";
     aliases = {
       co = "checkout";
       sb = "status -s";
