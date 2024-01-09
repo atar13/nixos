@@ -10,8 +10,9 @@ in
   programs.spicetify = {
     spotifyPackage = pkgs.spotify;
     enable = true;
-    theme = spicetify-pkgs.themes.Dribbblish;
-    colorScheme = "purple";
+    theme = spicetify-pkgs.themes.DefaultDynamic;
+    # theme = spicetify-pkgs.themes.Dribbblish;
+    # colorScheme = "purple";
 
     enabledExtensions = with spicetify-pkgs.extensions; [
       fullAppDisplay
