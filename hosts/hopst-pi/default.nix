@@ -50,6 +50,7 @@
   users = {
     mutableUsers = true;
     users."atarbinian" = {
+      shell = pkgs.zsh;
       isNormalUser = true;
       # hashedPasswordFile = config.age.secrets.pi-atarbinian-password.path;
       extraGroups = [ "wheel" "video" "docker" ];
