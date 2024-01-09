@@ -49,5 +49,7 @@
     alacritty
     kitty
     st
+
+    kicad-small
   ];
 }
