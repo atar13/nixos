@@ -6,6 +6,7 @@
     ./wireguard.nix
     ./nginx.nix
     ./ddns.nix
+    ./immich.nix
 
     (import ../../modules/cli.nix { inherit inputs pkgs; })
     ../../modules/lib.nix
@@ -32,7 +33,7 @@
   services.localtimed.enable = true;
   services.geoclue2.enable = true;
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
 
   services.openssh = {
 	enable = true;
