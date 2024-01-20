@@ -86,5 +86,6 @@
     nurl
     comma
     inputs.agenix.packages.${pkgs.system}.default
+    inputs.compose2nix.packages.${pkgs.system}.default
   ];
 }

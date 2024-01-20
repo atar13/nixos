@@ -21,6 +21,11 @@
 
     spicetify-nix.url = "github:the-argus/spicetify-nix";
 
+    compose2nix = {
+      url = "github:aksiksi/compose2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = inputs @ { nixpkgs, home-manager, ... }:
