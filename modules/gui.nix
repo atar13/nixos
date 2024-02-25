@@ -15,9 +15,16 @@
 
   services.flatpak.enable = true;
 
+    nixpkgs.config.permittedInsecurePackages = [
+        "googleearth-pro-7.3.4.8248"
+    ];
+
+
   environment.systemPackages = with pkgs; [
     firefox
     brave
+    # ungoogled-chromium
+    chromium
 
     thunderbird
     signal-desktop
@@ -53,5 +60,12 @@
     st
 
     kicad-small
+
+    blanket
+    activitywatch
+    googleearth-pro
+    gimp
+    xournal
+    endeavour
   ];
 }
