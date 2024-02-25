@@ -53,7 +53,7 @@
         nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
-            ({ config, ...}: 
+            ({ config, ... }:
               (import ./hosts/${machine.name} { inherit config inputs pkgs old-pkgs; hostname = machine.name; }))
             home-manager.nixosModules.home-manager
             {

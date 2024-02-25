@@ -36,11 +36,11 @@
   # virtualisation.docker.enable = true;
 
   services.openssh = {
-	enable = true;
-	settings = {
-	   PermitRootLogin = "no";
-	   PasswordAuthentication = false;
-	};
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
   };
 
   services.jellyfin = {

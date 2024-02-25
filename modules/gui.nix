@@ -3,8 +3,8 @@
   # Configure keymap in X11
   services.xserver = {
     xkb = {
-        layout = "us";
-        variant = "";
+      layout = "us";
+      variant = "";
     };
   };
   environment = {
@@ -15,9 +15,9 @@
 
   services.flatpak.enable = true;
 
-    nixpkgs.config.permittedInsecurePackages = [
-        "googleearth-pro-7.3.4.8248"
-    ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "googleearth-pro-7.3.4.8248"
+  ];
 
 
   environment.systemPackages = with pkgs; [

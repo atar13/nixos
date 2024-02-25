@@ -21,7 +21,7 @@
 
       # `gnome-extensions list` for a list
       enabled-extensions = [
-      "appindicatorsupport@rgcjonas.gmail.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
         # "user-theme@gnome-shell-extensions.gcampax.github.com"
         # "trayIconsReloaded@selfmade.pl"
         # "Vitals@CoreCoding.com"

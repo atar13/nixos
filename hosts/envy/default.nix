@@ -8,7 +8,7 @@
     (import ../../modules/cli.nix { inherit inputs pkgs; })
     ../../modules/bluetooth.nix
     ../../modules/fonts.nix
-    (import ../../modules/gnome.nix {inherit pkgs; })
+    (import ../../modules/gnome.nix { inherit pkgs; })
     ../../modules/gui.nix
     ../../modules/vscode.nix
     ../../modules/lib.nix
