@@ -1,5 +1,5 @@
 # HP-Envy Laptop specific configuration
-{ config, inputs, pkgs, hostname, ... }:
+{ config, inputs, pkgs, old-pkgs, hostname, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -50,6 +50,7 @@
       MOZ_USE_XINPUT2 = "1";
     };
     systemPackages = with pkgs; [
+      old-pkgs.segger-jlink
       acpi
     ];
   };
@@ -121,4 +122,16 @@
   };
 
   services.openssh.enable = true;
+
+  # enable udev rules from packages
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "99-ftdi.rules";
+      text = ''
+        ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", MODE="0666"
+      '';
+      destination = "/etc/udev/rules.d/99-ftdi.rules";
+    })
+    old-pkgs.segger-jlink
+  ];
 }

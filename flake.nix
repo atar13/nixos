@@ -8,6 +8,7 @@
     };
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-old.url = "github:nixos/nixpkgs/nixos-23.05";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -28,7 +29,7 @@
 
   };
 
-  outputs = inputs @ { nixpkgs, home-manager, ... }:
+  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, ... }:
     let
       defaultUser = "atarbinian";
 
@@ -43,12 +44,17 @@
             system = machine.system;
             config.allowUnfree = true;
           };
+          old-pkgs = import nixpkgs-old {
+            system = machine.system;
+            config.allowUnfree = true;
+            config.segger-jlink.acceptLicense = true;
+          };
         in
         nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
             ({ config, ...}: 
-              (import ./hosts/${machine.name} { inherit config inputs pkgs; hostname = machine.name; }))
+              (import ./hosts/${machine.name} { inherit config inputs pkgs old-pkgs; hostname = machine.name; }))
             home-manager.nixosModules.home-manager
             {
               home-manager.users = builtins.listToAttrs (builtins.map
