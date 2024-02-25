@@ -29,6 +29,7 @@ in
       uuid=a3e84326-d2a0-472e-b794-0ae36eeb7d08
       type=wireguard
       interface-name=${remote-interface-name}
+      autoconnect=false 
 
       [wireguard]
       private-key=${builtins.readFile config.age.secrets.wg-private-envy.path}
@@ -57,6 +58,7 @@ in
       uuid=7c4dd788-4012-435e-a9b7-dcf76df5b904
       type=wireguard
       interface-name=${home-interface-name}
+      autoconnect=false 
 
       [wireguard]
       private-key=${builtins.readFile config.age.secrets.wg-private-envy.path}
