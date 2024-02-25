@@ -54,5 +54,9 @@
       hostname = "10.0.0.1";
       user = "atarbinian";
     };
+    matchBlocks."datahub-gpu" = {
+        user = "atarbini";
+        proxyCommand = "ssh -i ~/.ssh/id_rsa atarbini@dsmlp-login.ucsd.edu /opt/launch-sh/bin/launch-scipy-ml.sh -P Always -g 1 -i tritonuas/cv-docker:master -H -N datahub-vscode";
+    };
   };
 }
