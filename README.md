@@ -1,12 +1,10 @@
 # nixos
 
-This repo contains my configuration files for NixOS.
+This repo contains my configuration files for NixOS for my two machines:
+- [HP Envy x360 Personal Laptop](./hosts/envy/)
+- [Raspberry Pi Home Server](./hosts/hopst-pi/)
 
-
-The confiuration is setup as a flake in `flake.nix`. Platform specific configurations (will) exist in the `hosts` folder. I'm using home-manager to configure some user specific settings.
-
-
-Everything here is still a work in progress that can use quite a bit of organization. 
+The confiuration is setup as a flake in `flake.nix`. Platform specific configurations exist in the `hosts` folder. I'm using home-manager to configure some user specific settings.
 
 ## Installation
 
@@ -14,10 +12,10 @@ Everything here is still a work in progress that can use quite a bit of organiza
 
 To switch now:
 ```shell
-./update.sh now
+./update.sh <hostname> now
 ```
 
 To switch on next boot:
 ```shell
-./update.sh later 
+./update.sh <hostname> later 
 ```
