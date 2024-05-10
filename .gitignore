@@ -1,5 +1,5 @@
 # output of nix build
-result/
+result
 
 # output of nixos-rebuild build-vm
 *.qcow2
