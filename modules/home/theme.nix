@@ -8,17 +8,17 @@ with lib;
     x11.enable = true;
   };
 
-  home.sessionVariables.GTK_THEME = mkIf nixosConfig.desktop.dwm.enable "Materia-dark";
+  home.sessionVariables.GTK_THEME = mkIf (nixosConfig.desktop.dwm.enable) "Materia-dark";
+  gtk.theme = mkIf (nixosConfig.desktop.dwm.enable) {
+    name = "Materia-dark";
+    package = pkgs.materia-theme;
+  };
 
   gtk = {
     enable = true;
     iconTheme = {
       name = "Tela-purple-dark";
       package = pkgs.tela-icon-theme;
-    };
-    theme = mkIf nixosConfig.desktop.dwm.enable {
-      name = "Materia-dark";
-      package = pkgs.materia-theme;
     };
     cursorTheme = {
       name = "Bibata-Modern-Classic";
