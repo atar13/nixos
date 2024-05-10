@@ -4,8 +4,12 @@
   inputs = {
     dotfiles = {
       url = "github:atar13/dotfiles";
+      # url = "file+file:///home/atarbinian/dotfiles";
       flake = false;
     };
+
+    dwm.url = "github:atar13/dwm";
+    dmenu.url = "github:atar13/dmenu";
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-old.url = "github:nixos/nixpkgs/nixos-23.05";
@@ -43,26 +47,36 @@
           pkgs = import nixpkgs {
             system = machine.system;
             config.allowUnfree = true;
+            config.segger-jlink.acceptLicense = true;
           };
           old-pkgs = import nixpkgs-old {
             system = machine.system;
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
+            config.permittedInsecurePackages = [
+                "electron-12.2.3"
+            ];
           };
+          config = config;
         in
         nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
-            ({ config, ... }:
-              (import ./hosts/${machine.name} { inherit config inputs pkgs old-pkgs; hostname = machine.name; }))
+            ({ config, lib, ... }:
+              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs; hostname = machine.name; })
+            )
             home-manager.nixosModules.home-manager
             {
-              home-manager.users = builtins.listToAttrs (builtins.map
-                (username: {
-                  name = username;
-                  value = import ./hosts/${machine.name}/home/${username} { inherit inputs pkgs username; };
-                })
-                machine.users);
+              home-manager = {
+                users = builtins.listToAttrs (builtins.map
+                  (username: {
+                    name = username;
+                    value = ({ config, lib, ... }:
+                      import ./hosts/${machine.name}/home/${username} { inherit inputs config lib pkgs username; });
+                  })
+                  machine.users);
+                extraSpecialArgs = { nixosConfig = config; };
+              };
             }
           ];
         };

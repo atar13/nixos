@@ -1,4 +1,5 @@
-{ pkgs, ... }:
+{ lib, nixosConfig, pkgs, ... }:
+with lib;
 {
   home.pointerCursor = {
     name = "Bibata-Modern-Classic";
@@ -7,16 +8,18 @@
     x11.enable = true;
   };
 
+  home.sessionVariables.GTK_THEME = mkIf nixosConfig.desktop.dwm.enable "Materia-dark";
+
   gtk = {
     enable = true;
     iconTheme = {
       name = "Tela-purple-dark";
       package = pkgs.tela-icon-theme;
     };
-    # theme = {
-    #   name = "Materia-dark";
-    #   package = pkgs.materia-theme;
-    # };
+    theme = mkIf nixosConfig.desktop.dwm.enable {
+      name = "Materia-dark";
+      package = pkgs.materia-theme;
+    };
     cursorTheme = {
       name = "Bibata-Modern-Classic";
       package = pkgs.bibata-cursors;

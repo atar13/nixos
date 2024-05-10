@@ -1,19 +1,20 @@
 { username, ... }:
 let
-  browser = "firefox";
+  browser = "firefox.desktop";
+  pdf = "mupdf.desktop";
 in
 {
   xdg.mimeApps = {
     enable = true;
 
     defaultApplications = {
-      "text/html" = "${browser}";
-      "x-scheme-handler/http" = "${browser}";
-      "x-scheme-handler/https" = "${browser}";
-      "x-scheme-handler/about" = "${browser}";
-      "x-scheme-handler/unknown" = "${browser}";
+      "text/html" = browser;
+      "x-scheme-handler/http" = browser;
+      "x-scheme-handler/https" = browser;
+      "x-scheme-handler/about" = browser;
+      "x-scheme-handler/unknown" = browser;
 
-      "application/pdf" = "mupdf";
+      "application/pdf" = pdf;
     };
   };
 

@@ -8,14 +8,8 @@
     alacritty.source = "${dotfiles}/alacritty/.config/alacritty";
     cmus.source = "${dotfiles}/cmus/.config/cmus";
     kitty.source = "${dotfiles}/kitty/.config/kitty";
+    "go-dwm-statusbar".source = "${dotfiles}/go-dwm-statusbar/.config/go-dwm-statusbar";
     "starship.toml".source = "${dotfiles}/starship/.config/starship.toml";
-    nvim = {
-      # needs to be recursive instead of symlink to get packer to work
-      # https://github.com/nix-community/home-manager/issues/2282#issuecomment-903299819
-      recursive = true;
-      source = "${dotfiles}/nvim/.config/nvim";
-      # source = "/home/${username}/dotfiles/nvim/.config/nvim";
-    };
     tmux = {
       recursive = true;
       source = "${dotfiles}/tmux/.config/tmux";
