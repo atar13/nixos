@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, old-pkgs, ... }:
 {
   # Configure keymap in X11
   services.xserver = {
@@ -14,10 +14,6 @@
   };
 
   services.flatpak.enable = true;
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "googleearth-pro-7.3.4.8248"
-  ];
 
 
   environment.systemPackages = with pkgs; [
@@ -49,7 +45,6 @@
 
     pavucontrol
     pulseaudio
-    virt-manager
     appimage-run
     ulauncher
     timeshift
@@ -63,9 +58,20 @@
 
     blanket
     activitywatch
-    googleearth-pro
+    # googleearth-pro
     gimp
     xournal
     endeavour
+    gtg
+    evolution
+    zoom-us
+    pinta
+    element-desktop
+    pika-backup
+    minecraft
+    freecad
+    libreoffice-still
+    saleae-logic-2
+    old-pkgs.etcher
   ];
 }

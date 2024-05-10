@@ -10,6 +10,12 @@
     };
   };
 
+  programs.direnv = {
+    enable = true;
+    silent = true;
+    loadInNixShell = true;
+  };
+
   environment.systemPackages = with pkgs; [
     git
     tmux
@@ -87,5 +93,11 @@
     comma
     inputs.agenix.packages.${pkgs.system}.default
     inputs.compose2nix.packages.${pkgs.system}.default
+
+    imagemagick
+    timetagger_cli
+
+    dig
+    just
   ];
 }

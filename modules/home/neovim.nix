@@ -194,6 +194,17 @@ in
     };
   };
 
+  home.packages = with pkgs; [
+    html-tidy
+    vscode-langservers-extracted
+    # ripgrep
+    # fd
+    # lua-language-server
+    rust-analyzer
+    # black
+    # clangd
+  ];
+
   programs.neovim = {
     enable = true;
     viAlias = true;

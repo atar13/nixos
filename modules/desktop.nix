@@ -1,17 +1,18 @@
-{ lib, pkgs, inputs, ... }:
+{ lib, pkgs, config, inputs, ... }:
+with lib;
 {
-    options.deskop = mkOption {
-        type = with types; uniq str;
-        default = "gnome";
-        example = "gnome";
-        description = "
+  options.gui.desktop = mkOption {
+    type = with types; uniq str;
+    default = "gnome";
+    example = "gnome";
+    description = "
             Desktop environment (either dwm or gnome)
         ";
-    };
+  };
 
-    config = if config.desktop == "dwm" then (
-        (import ../../modules/dwm.nix { inherit inputs pkgs; })
-    ) else (
-        (import ../../modules/gnome.nix { inherit pkgs; })
-    );
+  # config = if config.desktop == "dwm" then {
+  #     import ./dwm.nix { inherit inputs pkgs; }
+  # } else {
+  #     import ./gnome.nix { inherit pkgs; }
+  # };
 }

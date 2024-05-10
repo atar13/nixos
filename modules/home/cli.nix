@@ -1,4 +1,6 @@
+# { lib, inputs, ... }:
 { dotfiles, username, ... }:
+# with lib;
 {
   home.file = {
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
@@ -8,12 +10,13 @@
     alacritty.source = "${dotfiles}/alacritty/.config/alacritty";
     cmus.source = "${dotfiles}/cmus/.config/cmus";
     kitty.source = "${dotfiles}/kitty/.config/kitty";
-    "go-dwm-statusbar".source = "${dotfiles}/go-dwm-statusbar/.config/go-dwm-statusbar";
     "starship.toml".source = "${dotfiles}/starship/.config/starship.toml";
     tmux = {
       recursive = true;
       source = "${dotfiles}/tmux/.config/tmux";
     };
+    dunst.source = "${dotfiles}/dunst/.config/dunst";
+    # "go-dwm-statusbar".source = mkIf nixosConfig.desktop.dwm.enable "${dotfiles}/go-dwm-statusbar/.config/go-dwm-statusbar";
   };
 
   home.shellAliases = {
@@ -50,7 +53,11 @@
     };
     matchBlocks."datahub-gpu" = {
       user = "atarbini";
-      proxyCommand = "ssh -i ~/.ssh/id_rsa atarbini@dsmlp-login.ucsd.edu /opt/launch-sh/bin/launch-scipy-ml.sh -P Always -g 1 -i tritonuas/cv-docker:master -H -N datahub-vscode";
+      proxyCommand = "ssh -i ~/.ssh/datahub_rsa atarbini@dsmlp-login.ucsd.edu /opt/launch-sh/bin/launch-scipy-ml.sh -P Always -g 1 -i tritonuas/cv-docker:master -H -N datahub-vscode";
+    };
+    matchBlocks."jetson" = {
+      hostname = "192.168.1.51";
+      user = "jetson2";
     };
   };
 }

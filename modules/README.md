@@ -26,6 +26,3 @@ languages/timezone
 
 ## nix.nix
 configure nix package manager and nixpkgs
-
-## vscode.nix
-configure vscode with extensions

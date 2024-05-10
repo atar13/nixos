@@ -11,5 +11,7 @@
     stdenv.cc.cc.lib
 
     texlive.combined.scheme-basic
+
+    nfs-utils
   ];
 }

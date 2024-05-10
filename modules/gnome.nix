@@ -1,21 +1,27 @@
-{ pkgs, ... }:
+{ lib, pkgs, config, ... }:
+with lib;
 {
-  programs.dconf.enable = true;
-
-  services = {
-    xserver = {
-      enable = true;
-      displayManager = {
-        gdm.enable = true;
-      };
-      desktopManager = {
-        gnome.enable = true;
-      };
-    };
+  options.desktop.gnome = {
+    enable = mkEnableOption "enable GNOME";
   };
 
-  environment.systemPackages = with pkgs; [
-    gnome.gnome-tweaks
-  ];
+  config = mkIf config.desktop.gnome.enable {
+    programs.dconf.enable = true;
 
+    services = {
+      xserver = {
+        enable = true;
+        displayManager = {
+          gdm.enable = true;
+        };
+        desktopManager = {
+          gnome.enable = true;
+        };
+      };
+    };
+
+    environment.systemPackages = with pkgs; [
+      gnome.gnome-tweaks
+    ];
+  };
 }

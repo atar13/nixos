@@ -1,5 +1,5 @@
 # HP-Envy Laptop specific configuration
-{ config, inputs, pkgs, old-pkgs, hostname, ... }:
+{ lib, config, inputs, pkgs, old-pkgs, hostname, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -8,12 +8,31 @@
     (import ../../modules/cli.nix { inherit inputs pkgs; })
     ../../modules/bluetooth.nix
     ../../modules/fonts.nix
-    (import ../../modules/gnome.nix { inherit pkgs; })
-    ../../modules/gui.nix
-    ../../modules/vscode.nix
+    ../../modules/gnome.nix
+    # ../../modules/dwm.nix
+    (import ../../modules/dwm.nix { inherit lib pkgs config inputs; })
+    ../../modules/desktop.nix
+    (import ../../modules/gui.nix { inherit pkgs old-pkgs; })
     ../../modules/lib.nix
     ../../modules/localization.nix
   ];
+
+  # users.users.nixosvmtest.isSystemUser = true ;
+  # users.users.nixosvmtest.initialPassword = "test";
+  # users.users.nixosvmtest.group = "nixosvmtest";
+  # users.groups.nixosvmtest = {};
+  # virtualisation.vmVariant = {
+  # # following configuration is added only when building VM with build-vm
+  #     virtualisation = {
+  #       memorySize =  2048; # Use 2048MiB memory.
+  #       cores = 3;         
+  #     };
+  # };
+
+  desktop.dwm.enable = true;
+  # desktop.gnome.enable = true;
+  networking.firewall.allowedTCPPorts = [ 2355 ];
+  networking.firewall.allowedUDPPorts = [ 2355 ];
 
   users.users."atarbinian" = {
     shell = pkgs.zsh;
@@ -26,6 +45,7 @@
       "networkmanager"
       "docker"
       "libvirtd"
+      "dialout"
     ];
   };
 
@@ -107,6 +127,7 @@
   };
 
   virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation.docker.enable = true;
@@ -123,6 +144,15 @@
 
   services.openssh.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #           "nrf-command-line-tools-10.23.2"
+  #         ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "segger-jlink-qt4-794a"
+    "googleearth-pro-7.3.4.8248"
+    "electron-12.2.3"
+  ];
   # enable udev rules from packages
   services.udev.packages = [
     (pkgs.writeTextFile {
@@ -133,5 +163,6 @@
       destination = "/etc/udev/rules.d/99-ftdi.rules";
     })
     old-pkgs.segger-jlink
+    pkgs.saleae-logic-2
   ];
 }

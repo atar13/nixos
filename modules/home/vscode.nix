@@ -4,15 +4,61 @@
       enable = true;
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = false;
-      package = pkgs.vscodium;
+      # package = pkgs.vscodium;
+      keybindings = [
+          {
+            key = "ctrl+p";
+            # https://code.visualstudio.com/docs/getstarted/keybindings
+            command = "workbench.action.quickOpen";
+            # https://code.visualstudio.com/api/references/when-clause-contexts
+            # when = "";
+          }
+      ];
+      userSettings = {
+            "workbench.colorTheme" = "Firefox Dark";
+            "files.autoSave" = "afterDelay";
+            "[nix]"."editor.tabSize" = 2;
+            "[html]" = {
+                "editor.defaultFormatter" = "esbenp.prettier-vscode";
+            };
+      };
       extensions = with pkgs.vscode-extensions; [
+        vscodevim.vim
+        ms-vsliveshare.vsliveshare
+
+        jnoortheen.nix-ide
         ms-python.python
         ms-azuretools.vscode-docker
         ms-vscode-remote.remote-ssh
+        ms-vscode-remote.remote-containers
         ms-vscode.cpptools
-        vscodevim.vim
+
+        marp-team.marp-vscode
+        ritwickdey.liveserver
+        esbenp.prettier-vscode
+
+
         piousdeer.adwaita-theme
         viktorqvarfordt.vscode-pitch-black-theme
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "firefox-devtools-theme";
+          publisher = "Heron";
+          version = "4.10.1";
+          sha256 = "9+Dw1FQSL1r4Te2N3Jm4wrj2rQ7LHE+6m2E4X+K+S5M=";
+        }
+        {
+          name = "pytrail";
+          publisher = "Samir-Rashid";
+          version = "0.0.3";
+          sha256 = "WO+OzUNSmDcAB5U9tmKIXPijTEekRkl1D0Hw68hmN6g=";
+        }
+        {
+          name = "platformio-ide";
+          publisher = "PlatformIO";
+          version = "3.3.3";
+          sha256 = "d8kwQVoG/MOujmvMaX6Y0wl85L2PNdv2EnqTZKo8pGk=";
+        }
       ];
   };
 
@@ -28,12 +74,6 @@
 #         piousdeer.adwaita-theme
 #         viktorqvarfordt.vscode-pitch-black-theme
 #       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-#         #      {
-#         # name = "remote-ssh";
-#         # publisher = "ms-vscode-remote";
-#         # version = "0.101.2023032415";
-#         # sha256 = "c+sCR+Zly5KiyQdQhGG0w+e+PHWICJfKaOPFbsdL7y8=";
-#         #      }
 #         {
 #           name = "remote-containers";
 #           publisher = "ms-vscode-remote";
@@ -78,4 +118,4 @@
 #       ];
 #     })
 #   ];
-# }
+}
