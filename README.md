@@ -9,14 +9,29 @@ The confiuration is setup as a flake in `flake.nix`. Platform specific configura
 
 ## Installation
 
-`update.sh` is a convenience script to rebuild and switch to the new confiuration at different times. 
+See the Justfile for how to build the system using `just`.
 
 To switch now:
-```shell
-./update.sh <hostname> now
+```sh
+just rebuild <hostname> switch
 ```
 
 To switch on next boot:
-```shell
-./update.sh <hostname> later 
+```sh
+just rebuild <hostname> boot 
+```
+
+To launch a system in a QEMU VM:
+```sh
+just vm <hostname>
+```
+
+To update flake inputs:
+```sh
+just update-all
+```
+
+For help:
+```sh
+just --help
 ```
