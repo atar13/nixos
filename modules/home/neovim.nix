@@ -186,11 +186,11 @@ in
   xdg.configFile = {
     "nvim/lua" = {
       recursive = true;
-      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua";
+      source = "${dotfiles}/nvim/.config/nvim/lua";
     };
     "nvim/after" = {
       recursive = true;
-      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
+      source = "${dotfiles}/nvim/.config/nvim/after";
     };
   };
 
