@@ -2,7 +2,7 @@
 { lib, config, inputs, pkgs, old-pkgs, hostname, ... }:
 {
   imports = [
-    # ./hardware-configuration.nix
+    ./hardware-configuration.nix
     # ./wg-client.nix
     (import ../../modules/nix.nix { inherit inputs pkgs; })
     (import ../../modules/cli.nix { inherit inputs pkgs; })
@@ -28,8 +28,8 @@
   #     };
   # };
 
-  # desktop.dwm.enable = true;
-  desktop.gnome.enable = true;
+  desktop.dwm.enable = true;
+  # desktop.gnome.enable = true;
   networking.firewall.allowedTCPPorts = [ 2355 ];
   networking.firewall.allowedUDPPorts = [ 2355 ];
 
