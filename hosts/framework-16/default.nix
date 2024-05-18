@@ -1,7 +1,8 @@
 # Framework 16 Laptop specific configuration
-{ lib, config, inputs, pkgs, old-pkgs, hostname, ... }:
+{ lib, config, inputs, pkgs, old-pkgs, hostname, nixos-hardware, ... }:
 {
   imports = [
+    nixos-hardware.nixosModules.framework-16-7040-amd
     ./hardware-configuration.nix
     # ./wg-client.nix
     (import ../../modules/nix.nix { inherit inputs pkgs; })

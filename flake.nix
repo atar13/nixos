@@ -31,9 +31,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, ... }:
+  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, nixos-hardware, ... }:
     let
       defaultUser = "atarbinian";
 
@@ -64,7 +65,7 @@
           modules = [
             inputs.agenix.nixosModules.default
             ({ config, lib, ... }:
-              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs; hostname = machine.name; })
+              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs nixos-hardware; hostname = machine.name; })
             )
             home-manager.nixosModules.home-manager
             {
