@@ -21,6 +21,7 @@
             "[html]" = {
                 "editor.defaultFormatter" = "esbenp.prettier-vscode";
             };
+            "platformio-ide.useBuiltinPIOCore" = false;
       };
       extensions = with pkgs.vscode-extensions; [
         vscodevim.vim
@@ -40,6 +41,7 @@
 
         piousdeer.adwaita-theme
         viktorqvarfordt.vscode-pitch-black-theme
+        # arrterian.nix-env-selector
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "firefox-devtools-theme";
