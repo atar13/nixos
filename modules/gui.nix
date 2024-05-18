@@ -73,5 +73,7 @@
     libreoffice-still
     saleae-logic-2
     old-pkgs.etcher
+    gpick
+    audacity
   ];
 }
