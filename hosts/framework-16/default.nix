@@ -15,7 +15,18 @@
     (import ../../modules/gui.nix { inherit pkgs old-pkgs; })
     ../../modules/lib.nix
     ../../modules/localization.nix
+    ../../modules/game.nix
   ];
+
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  programs.corectrl.enable = true;
+
+  services.fwupd.enable = true;
+
+  services.fprintd.enable = true;
+
+  programs.noisetorch.enable = true;
 
   # users.users.nixosvmtest.isSystemUser = true ;
   # users.users.nixosvmtest.initialPassword = "test";
@@ -29,8 +40,8 @@
   #     };
   # };
 
-  desktop.dwm.enable = true;
-  # desktop.gnome.enable = true;
+  # desktop.dwm.enable = true;
+  desktop.gnome.enable = true;
   networking.firewall.allowedTCPPorts = [ 2355 ];
   networking.firewall.allowedUDPPorts = [ 2355 ];
 
@@ -131,7 +142,6 @@
   virtualisation.spiceUSBRedirection.enable = true;
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
 
   hardware.opengl = {
     enable = true;

@@ -8,11 +8,11 @@ with lib;
     x11.enable = true;
   };
 
-  home.sessionVariables.GTK_THEME = mkIf (nixosConfig.desktop.dwm.enable) "Materia-dark";
-  gtk.theme = mkIf (nixosConfig.desktop.dwm.enable) {
-    name = "Materia-dark";
-    package = pkgs.materia-theme;
-  };
+  # home.sessionVariables.GTK_THEME = mkIf (nixosConfig.desktop.dwm.enable) "Materia-dark";
+  # gtk.theme = mkIf (nixosConfig.desktop.dwm.enable) {
+  #   name = "Materia-dark";
+  #   package = pkgs.materia-theme;
+  # };
 
   gtk = {
     enable = true;
