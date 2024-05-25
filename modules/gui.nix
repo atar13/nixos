@@ -75,5 +75,6 @@
     old-pkgs.etcher
     gpick
     audacity
+    cool-retro-term
   ];
 }
