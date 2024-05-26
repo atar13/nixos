@@ -4,7 +4,7 @@
   imports = [
     nixos-hardware.nixosModules.framework-16-7040-amd
     ./hardware-configuration.nix
-    # ./wg-client.nix
+    ./wg-client.nix
     (import ../../modules/nix.nix { inherit inputs pkgs; })
     (import ../../modules/cli.nix { inherit inputs pkgs; })
     ../../modules/bluetooth.nix
@@ -83,6 +83,7 @@
     systemPackages = with pkgs; [
       old-pkgs.segger-jlink
       acpi
+      virtiofsd
     ];
   };
 

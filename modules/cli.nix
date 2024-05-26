@@ -99,5 +99,6 @@
 
     dig
     just
+    du-dust
   ];
 }
