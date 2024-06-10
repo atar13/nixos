@@ -22,6 +22,7 @@
                 "editor.defaultFormatter" = "esbenp.prettier-vscode";
             };
             "platformio-ide.useBuiltinPIOCore" = false;
+            "editor.accessibilitySupport" =  "off";
       };
       extensions = with pkgs.vscode-extensions; [
         vscodevim.vim

@@ -50,6 +50,9 @@
             system = machine.system;
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
+            config.permittedInsecurePackages = [
+                "googleearth-pro-7.3.4.8248"
+            ];
           };
           old-pkgs = import nixpkgs-old {
             system = machine.system;

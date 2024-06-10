@@ -190,7 +190,8 @@ in
     };
     "nvim/after" = {
       recursive = true;
-      source = "${dotfiles}/nvim/.config/nvim/after";
+      # source = "${dotfiles}/nvim/.config/nvim/after";
+      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
     };
   };
 
@@ -203,6 +204,8 @@ in
     rust-analyzer
     # black
     # clangd
+    nil
+    glslls
   ];
 
   programs.neovim = {

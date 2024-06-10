@@ -7,6 +7,7 @@
     ../../../../modules/home/theme.nix
     ../../../../modules/home/vscode.nix
     ../../../../modules/home/gnome.nix
+    ../../../../modules/home/firefox.nix
     (import ../../../../modules/home/spicetify.nix { inherit pkgs; inherit (inputs) spicetify-nix; })
   ];
 

@@ -58,7 +58,7 @@
 
     blanket
     activitywatch
-    # googleearth-pro
+    googleearth-pro
     gimp
     xournal
     endeavour
