@@ -257,7 +257,7 @@ in
       lualine-nvim
       nvim-navic
       knap
-      suda-vim
+      vim-suda
       duck-nvim
       toggle-lsp-diagnostics-nvim
       vim-tmux-navigator

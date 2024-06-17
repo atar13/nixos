@@ -68,7 +68,7 @@
     pinta
     element-desktop
     pika-backup
-    minecraft
+    prismlauncher
     freecad
     libreoffice-still
     saleae-logic-2
@@ -76,5 +76,6 @@
     gpick
     audacity
     cool-retro-term
+    arduino-ide
   ];
 }

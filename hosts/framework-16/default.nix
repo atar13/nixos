@@ -97,11 +97,11 @@
   services = {
     xserver = {
       videoDrivers = [ "amdgpu" ];
-      libinput = {
-        enable = true;
-        touchpad.naturalScrolling = true;
-        touchpad.tapping = true;
-      };
+    };
+    libinput = {
+      enable = true;
+      touchpad.naturalScrolling = true;
+      touchpad.tapping = true;
     };
     # auto-cpufreq.enable = true; # don't use with powerprofiles daemon
     power-profiles-daemon.enable = true;

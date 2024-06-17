@@ -19,7 +19,7 @@
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-    package = pkgs.nixVersions.unstable;
+    package = pkgs.nixVersions.latest;
     channel.enable = false;
     settings.nix-path = [ "/etc/nix/path" ]; # This will fix the missing NIX_PATH
     registry.nixpkgs.flake = inputs.nixpkgs;
