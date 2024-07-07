@@ -27,6 +27,16 @@ in
 
   "namecheap-password.age".publicKeys = authorized;
 
-  "pi-atarbinian-password.age".publicKeys = authorized;
+  "kavita-token.age".publicKeys = authorized;
+
+  "radicale-users.age".publicKeys = authorized;
+  
+  "acme-porkbun.age".publicKeys = authorized;
+
+  "ddns-config-porkbun.age".publicKeys = authorized;
+
+  "immich-db-password.age".publicKeys = authorized;
+  "immich-redis-password.age".publicKeys = authorized;
+  "immich-typesense-api-key.age".publicKeys = authorized;
 }
 

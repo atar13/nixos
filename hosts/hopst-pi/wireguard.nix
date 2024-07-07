@@ -80,6 +80,35 @@
           publicKey = "xOQKn3SX7L4Lr8YhJUFY0nBnhrro1bN0NlU/bQJ4E2U=";
           allowedIPs = [ "10.0.0.9/32" ];
         }
+        # grogs-desktop 
+        {
+          publicKey = "k5Z9yWWZyGs8HN1Jxb6W+xiIgxausPQPqVv/pW3aBGg=";
+          allowedIPs = [ "10.0.0.10/32" ];
+        }
+        # verano-tv 
+        {
+          publicKey = "0it8bSunWCbqpbm2b1UbyslPjqt3FmmSKeTCOI3u8Ec=";
+          allowedIPs = [ "10.0.0.11/32" ];
+        }
+        # lenovo-legion
+        {
+          publicKey = "BfI+FDYTl0nP4gnDFPI8cjw/rjfNjx0MQJ3yFEWi5zg=";
+          allowedIPs = [ "10.0.0.12/32" ];
+        }
+        {
+          publicKey = "RebwZEDqXXTBpHbiENOpn3t1Jhu3J0uuGHueTrniy0E=";
+          allowedIPs = [ "10.0.0.13/32" ];
+        }
+        # framework-16
+        {
+          publicKey = "dEGmN6MOQhW+rYsgReV4FUcSWkSVKK+g3Gwo0HtCeQ0=";
+          allowedIPs = [ "10.0.0.14/32" ];
+        }
+        # ipad-9
+        {
+          publicKey = "n/peh2tTymooI87a/zgqG6AcnKLIm+or9gGVOfuqPUU=";
+          allowedIPs = [ "10.0.0.15/32" ];
+        }
       ];
     };
   };
