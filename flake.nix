@@ -42,6 +42,7 @@
         { name = "framework-16"; system = "x86_64-linux"; users = [ defaultUser ]; }
         { name = "envy"; system = "x86_64-linux"; users = [ defaultUser ]; }
         { name = "hopst-pi"; system = "aarch64-linux"; users = [ defaultUser ]; }
+        { name = "bee-pi"; system = "x86_64-linux"; users = [ defaultUser ]; }
       ];
 
       mkNixosConfig = machine:
