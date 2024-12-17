@@ -13,6 +13,7 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-old.url = "github:nixos/nixpkgs/nixos-23.05";
+    my-nixpkgs.url = "github:atar13/nixpkgs/nfrconnect-5.0.2";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -24,17 +25,28 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    spicetify-nix.url = "github:the-argus/spicetify-nix";
+    # spicetify-nix.url = "github:the-argus/spicetify-nix";
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     compose2nix = {
       url = "github:aksiksi/compose2nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-xilinx = {
+      # Recommended if you also override the default nixpkgs flake, common among
+      # nixos-unstable users:
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "gitlab:doronbehar/nix-xilinx";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, nixos-hardware, ... }:
+  outputs = inputs @ { nixpkgs, nixpkgs-old, my-nixpkgs, home-manager, nixos-hardware, nix-xilinx, ... }:
     let
       defaultUser = "atarbinian";
 
@@ -52,7 +64,8 @@
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
             config.permittedInsecurePackages = [
-                "googleearth-pro-7.3.4.8248"
+              "googleearth-pro-7.3.4.8248"
+              "segger-jlink-qt4-796s"
             ];
           };
           old-pkgs = import nixpkgs-old {
@@ -60,16 +73,25 @@
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
             config.permittedInsecurePackages = [
-                "electron-12.2.3"
+              "electron-12.2.3"
+            ];
+          };
+          my-pkgs = import my-nixpkgs {
+            system = machine.system;
+            config.allowUnfree = true;
+            config.segger-jlink.acceptLicense = true;
+            config.permittedInsecurePackages = [
+              "segger-jlink-qt4-796s"
             ];
           };
           config = config;
+
         in
         nixpkgs.lib.nixosSystem {
           modules = [
             inputs.agenix.nixosModules.default
             ({ config, lib, ... }:
-              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs nixos-hardware; hostname = machine.name; })
+              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs my-pkgs nixos-hardware; hostname = machine.name; })
             )
             home-manager.nixosModules.home-manager
             {
@@ -77,8 +99,8 @@
                 users = builtins.listToAttrs (builtins.map
                   (username: {
                     name = username;
-                    value = ({ config, lib, ... }:
-                      import ./hosts/${machine.name}/home/${username} { inherit inputs config lib pkgs username; });
+                    value = ({ config, lib, osConfig, ... }:
+                      import ./hosts/${machine.name}/home/${username} { inherit inputs config lib pkgs username osConfig; });
                   })
                   machine.users);
                 extraSpecialArgs = { nixosConfig = config; };
