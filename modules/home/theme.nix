@@ -1,5 +1,8 @@
 { lib, nixosConfig, pkgs, ... }:
 with lib;
+let
+  theme = pkgs.materia-theme;
+in
 {
   home.pointerCursor = {
     name = "Bibata-Modern-Classic";
@@ -8,10 +11,11 @@ with lib;
     x11.enable = true;
   };
 
-  # home.sessionVariables.GTK_THEME = mkIf (nixosConfig.desktop.dwm.enable) "Materia-dark";
-  # gtk.theme = mkIf (nixosConfig.desktop.dwm.enable) {
-  #   name = "Materia-dark";
-  #   package = pkgs.materia-theme;
+  # home.sessionVariables.GTK_THEME = mkIf (nixosConfig.gui.desktop != "gnome") theme.name;
+  #
+  # gtk.theme = mkIf (nixosConfig.gui.desktop != "gnome") {
+  #   name = theme.name;
+  #   package = theme;
   # };
 
   gtk = {

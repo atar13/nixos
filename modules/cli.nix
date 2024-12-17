@@ -73,7 +73,7 @@
 
     cargo
 
-    taskwarrior
+    # taskwarrior
     git-sizer
     apostrophe
     hugo
@@ -100,5 +100,10 @@
     dig
     just
     du-dust
+
+    openjdk
+    nrf-command-line-tools
+    helix
+    gnumake
   ];
 }

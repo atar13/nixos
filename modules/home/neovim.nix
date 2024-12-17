@@ -79,7 +79,7 @@ let
       owner = "b-src";
       repo = "lazy-nix-helper.nvim";
       rev = "main";
-      hash = "sha256-TBDZGj0NXkWvJZJ5ngEqbhovf6RPm9N+Rmphz92CS3Q=";
+      hash = "sha256-HwrO32Sj1FUWfnOZQYQ4yVgf/TQZPw0Nl+df/j0Jhbc=";
     };
   };
 
@@ -186,7 +186,8 @@ in
   xdg.configFile = {
     "nvim/lua" = {
       recursive = true;
-      source = "${dotfiles}/nvim/.config/nvim/lua";
+      # source = "${dotfiles}/nvim/.config/nvim/lua";
+      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua/";
     };
     "nvim/after" = {
       recursive = true;
@@ -200,12 +201,14 @@ in
     vscode-langservers-extracted
     # ripgrep
     # fd
-    # lua-language-server
+    lua-language-server
     rust-analyzer
     # black
     # clangd
     nil
     glslls
+    pyright
+    djlint
   ];
 
   programs.neovim = {

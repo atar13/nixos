@@ -1,4 +1,4 @@
-{ pkgs, old-pkgs, ... }:
+{ pkgs, old-pkgs, my-pkgs, ... }:
 {
   # Configure keymap in X11
   services.xserver = {
@@ -58,7 +58,7 @@
 
     blanket
     activitywatch
-    googleearth-pro
+    # googleearth-pro
     gimp
     xournal
     endeavour
@@ -77,5 +77,12 @@
     audacity
     cool-retro-term
     arduino-ide
+    hoppscotch
+    telegram-desktop
+    my-pkgs.nrfconnect
+    my-pkgs.nrf-udev
+    supersonic
+    mission-center
+    sony-headphones-client
   ];
 }

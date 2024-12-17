@@ -9,6 +9,8 @@ with lib;
     programs.dconf.enable = true;
 
     services = {
+      power-profiles-daemon.enable = true;
+      auto-cpufreq.enable = false;
       xserver = {
         enable = true;
         displayManager = {
@@ -21,7 +23,7 @@ with lib;
     };
 
     environment.systemPackages = with pkgs; [
-      gnome.gnome-tweaks
+      gnome-tweaks
       wl-clipboard
     ];
   };

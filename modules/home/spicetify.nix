@@ -1,16 +1,16 @@
 { pkgs, spicetify-nix, ... }:
 let
-  spicetify-pkgs = spicetify-nix.packages.${pkgs.system}.default;
+  spicetify-pkgs = spicetify-nix.legacyPackages.${pkgs.system};
 in
 {
   imports = [
-    spicetify-nix.homeManagerModule
+    spicetify-nix.homeManagerModules.default
   ];
 
   programs.spicetify = {
     spotifyPackage = pkgs.spotify;
     enable = true;
-    theme = spicetify-pkgs.themes.DefaultDynamic;
+    theme = spicetify-pkgs.themes.defaultDynamic;
     # theme = spicetify-pkgs.themes.Dribbblish;
     # colorScheme = "purple";
 

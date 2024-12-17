@@ -4,6 +4,7 @@
 {
   home.file = {
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
+    # ".zshrc".source = "/home/atarbinian/dotfiles/zsh/.zshrc";
   };
 
   xdg.configFile = {
@@ -58,6 +59,14 @@
     matchBlocks."jetson" = {
       hostname = "192.168.1.51";
       user = "jetson2";
+    };
+    # matchBlocks."github.com" = {
+    #   identityFile = "/home/atarbinian/Pkgs/DownOnSpot/assets/free_librespot_private_key";
+    #   identitiesOnly = true;
+    # };
+    matchBlocks."ieng6" = {
+      hostname = "ieng6.ucsd.edu";
+      user = "atarbini";
     };
   };
 }

@@ -35,6 +35,11 @@
 
   programs.noisetorch.enable = true;
 
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "rocm";
+  # };
+
   # users.users.nixosvmtest.isSystemUser = true ;
   # users.users.nixosvmtest.initialPassword = "test";
   # users.users.nixosvmtest.group = "nixosvmtest";
@@ -47,10 +52,15 @@
   #     };
   # };
 
+  # desktop.gnome.enable = false;
+  # desktop.hyprland.enable = true; 
   # desktop.dwm.enable = true;
-  desktop.gnome.enable = true;
-  networking.firewall.allowedTCPPorts = [ 2355 ];
-  networking.firewall.allowedUDPPorts = [ 2355 ];
+  # config.gui.desktop = "hyprland";
+  gui.desktop = "gnome";
+
+  networking.firewall.enable = true;
+  # networking.firewall.allowedTCPPorts = [ 2355 ];
+  # networking.firewall.allowedUDPPorts = [ 2355 ];
 
   users.users."atarbinian" = {
     shell = pkgs.zsh;
@@ -125,7 +135,7 @@
       touchpad.tapping = true;
     };
     # auto-cpufreq.enable = true; # don't use with powerprofiles daemon
-    power-profiles-daemon.enable = true;
+    # power-profiles-daemon.enable = true;
     #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
     printing = {
       enable = true;
@@ -133,6 +143,7 @@
     avahi = {
       enable = true;
       nssmdns4 = true;
+      openFirewall = true;
       publish = {
         enable = true;
         addresses = true;
@@ -142,7 +153,7 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.polkit.enable = true;
@@ -165,13 +176,13 @@
 
   virtualisation.docker.enable = true;
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       libGL
       libGLU
     ];
-    setLdLibraryPath = true;
+    # setLdLibraryPath = true;
   };
 
   services.openssh.enable = true;
@@ -224,5 +235,12 @@
     })
     old-pkgs.segger-jlink
     pkgs.saleae-logic-2
+    my-pkgs.nrf-udev
   ];
+
+  # https://wiki.nixos.org/wiki/Hardware/Framework/Laptop_16#Prevent_wake_up_in_backpack
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0014", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
+  '';
 }

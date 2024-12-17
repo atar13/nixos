@@ -11,6 +11,7 @@
     stdenv.cc.cc.lib
 
     texlive.combined.scheme-basic
+    texliveFull
 
     nfs-utils
   ];

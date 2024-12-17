@@ -36,8 +36,8 @@ in
   "kavita-token.age".publicKeys = authorized;
 
   "radicale-users.age".publicKeys = authorized;
-  
-  "acme-porkbun.age".publicKeys = authorized;
+
+  # "acme-porkbun.age".publicKeys = authorized;
 
   "ddns-config-porkbun.age".publicKeys = authorized;
 

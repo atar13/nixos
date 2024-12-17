@@ -23,7 +23,7 @@
     channel.enable = false;
     settings.nix-path = [ "/etc/nix/path" ]; # This will fix the missing NIX_PATH
     registry.nixpkgs.flake = inputs.nixpkgs;
-    nixPath = [ "nixpkgs=/etc/nix/path/nixpkgs" "nixpkgs-old=/etc/nix/path/nixpkgs-old" "/nix/var/nix/profiles/per-user/root/channels" ];
+    nixPath = [ "nixpkgs=/etc/nix/path/nixpkgs" "nixpkgs-old=/etc/nix/path/nixpkgs-old" ];
     # https://github.com/NobbZ/nixos-config/blob/main/nixos/modules/flake.nix
     # https://discourse.nixos.org/t/do-flakes-also-set-the-system-channel/19798/2
     # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/8

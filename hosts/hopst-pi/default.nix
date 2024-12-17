@@ -64,7 +64,7 @@
       extraGroups = [ "video" "docker" "radarr" "sonarr" "lidarr" "readarr" ];
       isSystemUser = true;
     };
-    groups."media" = {};
+    groups."media" = { };
 
     users."jellyfin" = {
       extraGroups = [ "video" "radarr" "sonarr" "lidarr" ];
