@@ -14,9 +14,36 @@
   };
 
   outputs = { self, nixpkgs, zephyr-nix, ... }: let
-    pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    # pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config = {
+            allowUnfree = true;
+            segger-jlink.acceptLicense = true;
+            permittedInsecurePackages = [
+                "segger-jlink-qt4-796s"
+            ];
+        };
+    };
     zephyr = zephyr-nix.packages.x86_64-linux;
   in {
-    devShells.x86_64-linux.default = import ./shell.nix { inherit pkgs zephyr; };
+    devShells.x86_64-linux.default = pkgs.mkShell {
+      # Use the same mkShell as documented above
+        packages = [
+            (zephyr.sdk.override {
+              targets = [
+                "arm-zephyr-eabi"
+              ];
+            })
+            zephyr.pythonEnv
+            # Use zephyr.hosttools-nix to use nixpkgs built tooling instead of official Zephyr binaries
+            zephyr.hosttools
+            pkgs.cmake
+            pkgs.ninja
+            pkgs.picocom
+            pkgs.nrf-command-line-tools
+            pkgs.clang-tools
+      ];
+    };
   };
 }
