@@ -16,12 +16,15 @@ update-all:
 #     HOST is a hostname from flake.nix
 #     WHEN can be either "switch", "boot", "dry-build", etc
 rebuild HOST WHEN:
+	sudo nixos-rebuild {{WHEN}} --flake .#{{HOST}}
+
+rebuild-impure HOST WHEN:
 	sudo nixos-rebuild {{WHEN}} --flake .#{{HOST}} --impure
 
 # https://nixos.wiki/wiki/NixOS:nixos-rebuild_build-vm
 # create a QEMU virtual machine with a specified host's config
 vm HOST:
-	sudo nixos-rebuild build-vm --flake .#{{HOST}} --impure
+	sudo nixos-rebuild build-vm --flake .#{{HOST}}
 
 NIX_FILES := `find . -name '*.nix' -printf '%p '`
 # format nix files

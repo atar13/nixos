@@ -60,7 +60,7 @@
     activitywatch
     # googleearth-pro
     gimp
-    xournal
+    xournalpp
     endeavour
     gtg
     evolution
@@ -84,5 +84,9 @@
     supersonic
     mission-center
     sony-headphones-client
+    pdfarranger
+    tangram
+    zed-editor
+    feishin
   ];
 }

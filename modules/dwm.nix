@@ -16,11 +16,11 @@ with lib;
       ];
     };
     services = {
+        displayManager = {
+          ly.enable = true;
+        };
       xserver = {
         enable = true;
-        displayManager = {
-          gdm.enable = true;
-        };
         windowManager = {
           dwm.enable = true;
           dwm.package = inputs.dwm.packages.${pkgs.system}.default;
@@ -75,6 +75,8 @@ with lib;
     };
 
     environment.systemPackages = with pkgs; [
+      xorg.xinit
+      
       dwm-status
       inputs.dmenu.packages.${pkgs.system}.default
 

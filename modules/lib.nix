@@ -14,5 +14,7 @@
     texliveFull
 
     nfs-utils
+
+    libidn2
   ];
 }

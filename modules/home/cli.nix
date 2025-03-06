@@ -43,6 +43,7 @@
       color.ui = true;
       core.editor = "nvim";
       push.autoSetupRemote = true;
+      init.defaultBranch = "main";
     };
   };
 
@@ -60,10 +61,6 @@
       hostname = "192.168.1.51";
       user = "jetson2";
     };
-    # matchBlocks."github.com" = {
-    #   identityFile = "/home/atarbinian/Pkgs/DownOnSpot/assets/free_librespot_private_key";
-    #   identitiesOnly = true;
-    # };
     matchBlocks."ieng6" = {
       hostname = "ieng6.ucsd.edu";
       user = "atarbini";

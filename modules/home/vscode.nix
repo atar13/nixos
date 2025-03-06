@@ -21,7 +21,7 @@
       "[html]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
-      "platformio-ide.useBuiltinPIOCore" = false;
+      "platformio-ide.useBuiltinPIOCore" = true;
       "editor.accessibilitySupport" = "off";
       "editor.wordWrap" = "on";
       # "java.home" = "/run/current-system/sw/lib/openjdk";
@@ -42,7 +42,7 @@
       marp-team.marp-vscode
       ritwickdey.liveserver
       esbenp.prettier-vscode
-      rust-lang.rust-analyzer
+      # rust-lang.rust-analyzer
 
       # vscjava.vscode-java-pack
       # vscjava.vscode-java-debug
@@ -69,13 +69,25 @@
         name = "platformio-ide";
         publisher = "PlatformIO";
         version = "3.3.3";
-        sha256 = "d8kwQVoG/MOujmvMaX6Y0wl85L2PNdv2EnqTZKo8pGk=";
+        sha256 = "cVYnFhdeClHhuVaTWRU2IDIA1mFq1iLveZUIhEhMSck=";
       }
       {
         name = "vscode-sshfs";
         publisher = "Kelvin";
         version = "1.26.1";
         sha256 = "WO9vYELNvwmuNeI05sUBE969KAiKYtrJ1fRfdZx3OYU=";
+      }
+      {
+        name = "nrf-connect";
+        publisher = "nordic-semiconductor";
+        version = "2024.12.55";
+        sha256 = "Thh73IE7k8jOvlakzSRSIUG0z3ur1r2+3VFd+TpgK8A=";
+      }
+      {
+        name = "lean4";
+        publisher = "leanprover";
+        version = "0.0.186";
+        sha256 = "lkfMDIed+jw+5tnitv9V68BoohRwsIbAJ/7syDlo9KQ=";
       }
     ];
   };

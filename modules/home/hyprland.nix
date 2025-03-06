@@ -1,8 +1,8 @@
 { lib, pkgs, osConfig, ... }:
 with lib;
 let
-  # theme = pkgs.materia-theme;
-  theme = pkgs.fluent-gtk-theme;
+  theme = pkgs.materia-theme;
+  # theme = pkgs.fluent-gtk-theme;
 in
 {
   config = mkIf osConfig.desktop.hyprland.enable {
@@ -100,6 +100,18 @@ in
                /* 	background-color: rgb(248, 189, 150); */
                /*     color: rgb(26, 24, 38); */
                /* } */
+         #window {
+                 color: rgb(217, 224, 238);
+               }
+         #submap {
+                 color: rgb(217, 224, 238);
+               }
+         #workspaces {
+                 color: rgb(217, 224, 238);
+               }
+         #battery {
+                 color: rgb(181, 232, 224);
+               }
          #memory {
                  color: rgb(181, 232, 224);
                }
@@ -158,11 +170,13 @@ in
         "position" = "top";
         modules-left = [
           "custom/launcher"
-          "mpd"
+          "hyprland/submap"
+          "hyprland/window"
         ];
         modules-center = [
           "clock"
           "idle_inhibitor"
+          "hyprland/workspaces"
         ];
         modules-right = [
           "bluetooth"
@@ -171,6 +185,7 @@ in
           "cpu"
           "temperature"
           "memory"
+          "battery"
           "network"
           "custom/powermenu"
           "tray"
@@ -274,6 +289,11 @@ in
         "tray" = {
           "icon-size" = 15;
           "spacing" = 5;
+        };
+        "hyprland/submap"= {
+            "format"= "✌️ {}";
+            "max-length" = 8;
+            "tooltip" = false;
         };
       }];
     };
@@ -412,6 +432,7 @@ in
       "$mod" = "SUPER";
       "$terminal" = "alacritty";
       "$browser" = "firefox";
+      monitor = "eDP-2, 2560x1600@165.00000, 0x0, 1.333333";
       env = [
         "GTK_THEME, ${theme.name}"
       ];
@@ -435,6 +456,7 @@ in
         "$mod SHIFT, C, killactive"
 
         "$mod, M, fullscreen, 1"
+        "$mod, T, dwindle, 1"
         "$mod, F, togglefloating"
         "$mod SHIFT, P, pin"
 
@@ -478,11 +500,12 @@ in
       };
       decoration = {
         rounding = 10;
+        shadow.enabled = false;
         blur = {
           enabled = false;
         };
         # "blur:enabled = false"
-        drop_shadow = false;
+        # drop_shadow = false;
       };
       misc = {
         vfr = true;

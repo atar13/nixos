@@ -4,14 +4,15 @@ with lib;
   config = mkIf osConfig.desktop.gnome.enable {
     dconf.settings = {
       "org/gnome/desktop/wm/keybindings" = {
-        switch-applications = [ ];
-        switch-applications-backward = [ ];
+        switch-applications = [ "<Super>a" ];
+        switch-applications-backward = [ "<Super>s" ];
         switch-windows = [ "<Alt>Tab" ];
         switch-windows-background = [ "<Shift><Alt>Tab" ];
         switch-to-workspace-left = [ "<Super>q" ];
         switch-to-workspace-right = [ "<Super>w" ];
         move-to-workspace-left = [ "<Shift><Super>q" ];
         move-to-workspace-right = [ "<Shift><Super>w" ];
+        close = [ "<Shift><Super>c" ];
       };
 
 
@@ -54,6 +55,8 @@ with lib;
           "bitwarden.desktop"
           "gnome-system-monitor.desktop"
           "org.gnome.Settings.desktop"
+          "io.missioncenter.MissionCenter.desktop"
+          "re.sonny.Tangram.desktop"
         ];
 
         # `gnome-extensions list` for a list

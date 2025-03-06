@@ -105,5 +105,8 @@
     nrf-command-line-tools
     helix
     gnumake
+    picocom
+    nix-output-monitor
+    hexyl
   ];
 }

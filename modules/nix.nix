@@ -1,5 +1,5 @@
 { inputs, pkgs, ... }: {
-  system.stateVersion = "unstable";
+  system.stateVersion = "25.05";
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.segger-jlink.acceptLicense = true;

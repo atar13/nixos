@@ -93,15 +93,15 @@ let
     };
   };
 
-  noctis-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "noctis.nvim";
-    src = pkgs.fetchFromGitHub {
-      owner = "kartikp10";
-      repo = "noctis.nvim";
-      rev = "0b9336e39c686a7e58de06e4dd38c2bd862a7b33";
-      hash = "sha256-TtH5Kw9qgkMisuJNI2LeTHTNfQZnJXPQfs9WJGQwgys=";
-    };
-  };
+  # noctis-nvim = pkgs.vimUtils.buildVimPlugin {
+  #   name = "noctis.nvim";
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "kartikp10";
+  #     repo = "noctis.nvim";
+  #     rev = "0b9336e39c686a7e58de06e4dd38c2bd862a7b33";
+  #     hash = "sha256-TtH5Kw9qgkMisuJNI2LeTHTNfQZnJXPQfs9WJGQwgys=";
+  #   };
+  # };
 
   icon-picker-nvim = pkgs.vimUtils.buildVimPlugin {
     name = "icon-picker.nvim";
@@ -133,15 +133,15 @@ let
     };
   };
 
-  nvim-cmp-unstable = pkgs.vimUtils.buildVimPlugin {
-    name = "hrsh7th/nvim-cmp";
-    src = pkgs.fetchFromGitHub {
-      owner = "hrsh7th";
-      repo = "nvim-cmp";
-      rev = "97dc716fc914c46577a4f254035ebef1aa72558a";
-      hash = "sha256-VFtf1mI1ucClWzsWn+rf+TlC3ZgkYPiHrPTQZci9zrQ=";
-    };
-  };
+  # nvim-cmp-unstable = pkgs.vimUtils.buildVimPlugin {
+  #   name = "hrsh7th/nvim-cmp";
+  #   src = pkgs.fetchFromGitHub {
+  #     owner = "hrsh7th";
+  #     repo = "nvim-cmp";
+  #     rev = "97dc716fc914c46577a4f254035ebef1aa72558a";
+  #     hash = "sha256-VFtf1mI1ucClWzsWn+rf+TlC3ZgkYPiHrPTQZci9zrQ=";
+  #   };
+  # };
 
   treesitterWithGrammars = (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
     p.bash
@@ -202,7 +202,7 @@ in
     # ripgrep
     # fd
     lua-language-server
-    rust-analyzer
+    # rust-analyzer
     # black
     # clangd
     nil
@@ -232,7 +232,7 @@ in
       vim-rooter
 
       nvim-lspconfig
-      nvim-cmp-unstable
+      # nvim-cmp-unstable
       cmp-nvim-lsp
       cmp-buffer
       cmp-path
@@ -270,6 +270,7 @@ in
       # nvim-treesitter.withAllGrammars
       # treesitterWithGrammars
       # (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      rustaceanvim
     ];
     extraLuaConfig = ''
       require("config")

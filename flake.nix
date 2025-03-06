@@ -44,9 +44,13 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
-  outputs = inputs @ { nixpkgs, nixpkgs-old, my-nixpkgs, home-manager, nixos-hardware, nix-xilinx, ... }:
+  outputs = inputs @ { nixpkgs, nixpkgs-old, my-nixpkgs, home-manager, nixos-hardware, nix-xilinx, ghostty, ... }:
     let
       defaultUser = "atarbinian";
 
@@ -66,6 +70,7 @@
             config.permittedInsecurePackages = [
               "googleearth-pro-7.3.4.8248"
               "segger-jlink-qt4-796s"
+              "segger-jlink-qt4-810"
             ];
           };
           old-pkgs = import nixpkgs-old {
@@ -82,6 +87,7 @@
             config.segger-jlink.acceptLicense = true;
             config.permittedInsecurePackages = [
               "segger-jlink-qt4-796s"
+              "segger-jlink-qt4-810"
             ];
           };
           config = config;

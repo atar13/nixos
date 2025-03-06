@@ -1,5 +1,5 @@
 # Framework 16 Laptop specific configuration
-{ lib, config, inputs, pkgs, old-pkgs, my-pkgs, hostname, nixos-hardware, ... }:
+{ lib, config, inputs, pkgs, old-pkgs, my-pkgs, arm-pkgs, hostname, nixos-hardware, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.framework-16-7040-amd
@@ -15,6 +15,8 @@
     ../../modules/localization.nix
     ../../modules/game.nix
   ];
+
+  gui.desktop = "gnome";
 
   nixpkgs.overlays = [
     (
@@ -35,32 +37,37 @@
 
   programs.noisetorch.enable = true;
 
-  # services.ollama = {
-  #   enable = true;
-  #   acceleration = "rocm";
-  # };
+  programs.wireshark.enable = true;
 
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    environmentVariables = {
+        HCC_AMDGPU_TARGET = "gfx1102"; # used to be necessary, but doesn't seem to anymore
+    };
+    rocmOverrideGfx = "11.0.2";
+  };
+
+  # # following configuration is added only when building VM with build-vm
   # users.users.nixosvmtest.isSystemUser = true ;
   # users.users.nixosvmtest.initialPassword = "test";
   # users.users.nixosvmtest.group = "nixosvmtest";
   # users.groups.nixosvmtest = {};
   # virtualisation.vmVariant = {
-  # # following configuration is added only when building VM with build-vm
   #     virtualisation = {
   #       memorySize =  2048; # Use 2048MiB memory.
   #       cores = 3;         
   #     };
   # };
 
-  # desktop.gnome.enable = false;
-  # desktop.hyprland.enable = true; 
-  # desktop.dwm.enable = true;
-  # config.gui.desktop = "hyprland";
-  gui.desktop = "gnome";
-
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ 2355 ];
-  # networking.firewall.allowedUDPPorts = [ 2355 ];
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.allowedUDPPorts = [ ];
 
   users.users."atarbinian" = {
     shell = pkgs.zsh;
@@ -75,6 +82,8 @@
       "libvirtd"
       "dialout"
       "tty"
+      "wireshark"
+      "plugdev"
     ];
   };
 
@@ -100,6 +109,10 @@
       SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS = "0";
     };
     systemPackages = with pkgs; [
+      wireshark
+      openconnect
+      vdirsyncer
+      todoman
       old-pkgs.segger-jlink
       acpi
       virtiofsd
@@ -108,6 +121,15 @@
       inputs.nix-xilinx.packages.${pkgs.system}.vitis_hls
       inputs.nix-xilinx.packages.${pkgs.system}.vivado
       inputs.nix-xilinx.packages.${pkgs.system}.model_composer
+      libimobiledevice
+      ifuse
+      inputs.ghostty.packages.${pkgs.system}.default
+      borgbackup
+      qemu
+      # qemu_full
+      qemu-user
+      nrfutil
+      input-remapper
     ];
   };
 
@@ -125,6 +147,8 @@
 
   programs.light.enable = true;
 
+  networking.networkmanager.wifi.powersave = true;
+
   services = {
     xserver = {
       videoDrivers = [ "amdgpu" ];
@@ -134,16 +158,16 @@
       touchpad.naturalScrolling = true;
       touchpad.tapping = true;
     };
-    # auto-cpufreq.enable = true; # don't use with powerprofiles daemon
-    # power-profiles-daemon.enable = true;
+
     #logind.lidSwitch = "ignore";           # Laptop does not go to sleep when lid is closed
+
     printing = {
       enable = true;
     };
     avahi = {
       enable = true;
       nssmdns4 = true;
-      openFirewall = true;
+      openFirewall = false;
       publish = {
         enable = true;
         addresses = true;
@@ -154,7 +178,7 @@
 
   # Enable sound with pipewire.
   # sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   security.polkit.enable = true;
   services.pipewire = {
@@ -169,6 +193,13 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+
+  boot.binfmt.emulatedSystems = [
+      "aarch64-linux"
+      "riscv64-linux"
+  ];
+  nix.settings.extra-platforms = config.boot.binfmt.emulatedSystems;
+
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
@@ -198,6 +229,13 @@
   ];
   # enable udev rules from packages
   services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "51-android.rules";
+      text = ''
+        SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="4ee0", MODE="0666", GROUP="plugdev"
+      '';
+      destination = "/etc/udev/rules.d/51-android.rules";
+    })
     (pkgs.writeTextFile {
       name = "99-ftdi.rules";
       text = ''
@@ -236,11 +274,15 @@
     old-pkgs.segger-jlink
     pkgs.saleae-logic-2
     my-pkgs.nrf-udev
+    pkgs.platformio-core.udev
+    pkgs.platformio-core
+    pkgs.openocd
   ];
 
   # https://wiki.nixos.org/wiki/Hardware/Framework/Laptop_16#Prevent_wake_up_in_backpack
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0014", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
+    SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
   '';
 }
