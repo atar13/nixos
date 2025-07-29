@@ -33,56 +33,40 @@ with lib;
     services.udisks2.enable = true;
     services.upower.enable = true;
 
-    services.dwm-status = {
-      enable = true;
-      order = [ "audio" "backlight" "battery" "cpu_load" "network" "time" ];
-      extraConfig = ''
-        separator = " | "
+    programs.i3lock = {
+        enable = true;
+        package = pkgs.i3lock-color;
+    };
 
-        [audio]
-        control = "Master"
-        mute = "MUTE"
-        template = "S {VOL}%"
-        icons = []
+    security.pam.services.i3lock.enable = true;
 
-        [backlight]
-        device = "amdgpu_bl2"
-        template = "L {BL}%"
-        icons = ["󰃜", "󰃛", "󰃚"]
+    services.picom = {
+        enable = true;
+        package = pkgs.picom-next;
+    };
 
-        [battery]
-        charging = "▲"
-        discharging = "▼"
-        enable_notifier = true
-        no_battery = "NO BATT"
-        notifier_critical = 10
-        notifier_levels = [2, 5, 10, 15, 20]
-        separator = " · "
-        icons = []
+    # systemd.user.services.ulauncher = {
+    #     enable = true;
+    # };  
+    systemd.user.services.ulauncher = {
+        enable = true;
+        description = "Start Ulauncher";
+        script = "${pkgs.ulauncher}/bin/ulauncher --hide-window";
 
-        [cpu_load]
-        template = "{CL1} {CL5} {CL15}"
-        update_interval = 20
-
-        [network]
-        no_value = "N/A"
-        template = "{ESSID}"
-
-        [time]
-        format = "%m-%d %H:%M"
-        update_seconds = false
-      '';
+        documentation = [ "https://github.com/Ulauncher/Ulauncher/blob/f0905b9a9cabb342f9c29d0e9efd3ba4d0fa456e/contrib/systemd/ulauncher.service" ];
+        wantedBy = [ "graphical.target" "multi-user.target" ];
+        after = [ "display-manager.service" ];
     };
 
     environment.systemPackages = with pkgs; [
       xorg.xinit
       
-      dwm-status
+      # dwm-status
       inputs.dmenu.packages.${pkgs.system}.default
 
-      picom-next
       xss-lock
-      i3lock-color
+      # i3lock-color
+      rofi
 
       dbus
       feh
@@ -98,5 +82,52 @@ with lib;
 
       alsa-utils
     ];
+  # services.dwm-status  = mkIf osConfig.desktop.dwm.enable {
+  #     enable = true;
+  #     order = [ "audio" "backlight" "battery" "cpu_load" "network" "time" ];
+  #     extraConfig = {
+  #       separator = " | ";
+  #
+  #       audio = {
+  #           control = "Master";
+  #           mute = "󰖁";
+  #           template = "{ICO} {VOL}%";
+  #           icons = ["󰕿" "󰖀" "󰕾"];
+  #       };
+  #
+  #       backlight = {
+  #           device = "amdgpu_bl2";
+  #           template = "{ICO} {BL}%";
+  #           icons = ["󰃜" "󰃛" "󰃚"];
+  #       };
+  #
+  #       battery = {
+  #           charging = "▲";
+  #           discharging = "▼";
+  #           enable_notifier = true;
+  #           no_battery = "NO BATT";
+  #           notifier_critical = 10;
+  #           notifier_levels = [2 5 10 15 20];
+  #           separator = " · ";
+  #           icons = ["󰁻" "󰁽" "󰂂"];
+  #       };
+  #
+  #       cpu_load = {
+  #           template = "{CL1} {CL5} {CL15}";
+  #           update_interval = 20;
+  #       };
+  #
+  #       network = {
+  #           no_value = "N/A";
+  #           template = "{ESSID}";
+  #       };
+  #
+  #       time = {
+  #           format = "%H:%M %m-%d";
+  #           update_seconds = false;
+  #       };
+  #
+  #     };
+  # };
   };
 }

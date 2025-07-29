@@ -54,7 +54,7 @@
     feh
     scrot
     ffmpeg
-    yt-dlp
+    # yt-dlp
     croc
     gocryptfs
 
@@ -108,5 +108,8 @@
     picocom
     nix-output-monitor
     hexyl
+
+    rust-analyzer
+    fastfetch
   ];
 }

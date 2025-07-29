@@ -1,0 +1,33 @@
+From 2771f96336e3c469622f6e0e132f24ad1ba6a5c6 Mon Sep 17 00:00:00 2001
+From: Alex Deucher <alexander.deucher@amd.com>
+Date: Thu, 27 Mar 2025 17:33:49 -0400
+Subject: [PATCH] drm/amdgpu/mes11: optimize MES pipe FW version fetching
+
+Don't fetch it again if we already have it.  It seems the
+don't reliably have the proper value at resume in some
+cases.
+
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/4083
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/mes_v11_0.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+index 16f8bc36afa07..06b51867c9aac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/mes_v11_0.c
+@@ -895,6 +895,10 @@ static void mes_v11_0_get_fw_version(struct amdgpu_device *adev)
+ {
+ 	int pipe;
+ 
++	/* return early if we have already fetched these */
++	if (adev->mes.sched_version && adev->mes.kiq_version)
++		return;
++
+ 	/* get MES scheduler/KIQ versions */
+ 	mutex_lock(&adev->srbm_mutex);
+ 
+-- 
+2.49.0
+

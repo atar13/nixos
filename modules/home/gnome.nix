@@ -68,7 +68,11 @@ with lib;
           "blur-my-shell@aunetx"
           # "quick-settings-audio-panel@rayzeq.github.io"
           "quick-settings-tweaks@qwreey"
+          # "desktop-cube@"
           # "sound-output-device-chooser@kgshank.net"
+          pkgs.gnomeExtensions.desktop-cube.extensionUuid
+          pkgs.gnomeExtensions.compact-top-bar.extensionUuid
+          pkgs.gnomeExtensions.hide-top-bar.extensionUuid
           # "space-bar@luchrioh"
 
 
@@ -80,6 +84,9 @@ with lib;
           # "space-bar@luchrioh"
         ];
 
+      };
+      "org/gnome/shell/extensions/dash-to-dock" = {
+          hot-keys = false;
       };
 
       "org/gnome/shell/extensions/quick-settings-tweaks" = {
@@ -97,6 +104,9 @@ with lib;
       gnomeExtensions.quick-settings-tweaker
       gnomeExtensions.quick-settings-audio-panel
       gnomeExtensions.space-bar
+      gnomeExtensions.desktop-cube
+      gnomeExtensions.compact-top-bar
+      gnomeExtensions.hide-top-bar
       # gnomeExtensions.advanced-alttab-window-switcher
     ];
   };

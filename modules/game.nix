@@ -11,5 +11,6 @@
     # wine
     wineWowPackages.stable
     adwaita-icon-theme
+    mangohud
   ];
 }

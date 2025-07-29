@@ -9,10 +9,10 @@ in
 
     home.sessionVariables.GTK_THEME = theme.name;
 
-    gtk.theme = {
-      name = theme.name;
-      package = theme;
-    };
+    # gtk.theme = {
+    #   name = theme.name;
+    #   package = theme;
+    # };
 
     # programs.waybar = {
     #     enable = true;

@@ -21,7 +21,10 @@
     };
     package = pkgs.nixVersions.latest;
     channel.enable = false;
-    settings.nix-path = [ "/etc/nix/path" ]; # This will fix the missing NIX_PATH
+    settings = {
+        nix-path = [ "/etc/nix/path" ]; # This will fix the missing NIX_PATH
+        build-dir = "/var/tmp";
+    };
     registry.nixpkgs.flake = inputs.nixpkgs;
     nixPath = [ "nixpkgs=/etc/nix/path/nixpkgs" "nixpkgs-old=/etc/nix/path/nixpkgs-old" ];
     # https://github.com/NobbZ/nixos-config/blob/main/nixos/modules/flake.nix

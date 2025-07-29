@@ -11,14 +11,11 @@ with lib;
     services = {
       power-profiles-daemon.enable = true;
       auto-cpufreq.enable = false;
-      xserver = {
-        enable = true;
-        displayManager = {
-          gdm.enable = true;
-        };
-        desktopManager = {
-          gnome.enable = true;
-        };
+      displayManager = {
+        gdm.enable = true;
+      };
+      desktopManager = {
+        gnome.enable = true;
       };
     };
 

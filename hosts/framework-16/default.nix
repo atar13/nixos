@@ -1,5 +1,5 @@
 # Framework 16 Laptop specific configuration
-{ lib, config, inputs, pkgs, old-pkgs, my-pkgs, arm-pkgs, hostname, nixos-hardware, ... }:
+{ lib, config, inputs, pkgs, old-pkgs, my-pkgs, hostname, nixos-hardware, ... }:
 {
   imports = [
     nixos-hardware.nixosModules.framework-16-7040-amd
@@ -39,6 +39,62 @@
 
   programs.wireshark.enable = true;
 
+  services.input-remapper.enable = true;
+ #  systemd.services.StartInputRemapperDaemonAtLogin = {
+ #      enable = true;
+ #      description = "Start input-remapper daemon after login";
+ #      serviceConfig = {
+ #          Type = "simple";
+ #      };
+ #      script = lib.getExe(pkgs.writeShellApplication {
+ #          name = "start-input-mapper-daemon";
+ #          runtimeInputs = with pkgs; [input-remapper procps su];
+ #          text = ''
+ #            until pgrep -u atarbinian; do
+ #              sleep 1
+ #            done
+ #            sleep 2
+ #            until [ $(pgrep -c -u root "input-remapper") -gt 1 ]; do
+ #              input-remapper-service&
+ #              sleep 1
+ #              input-remapper-reader-service&
+ #              sleep 1
+ #            done
+ #            su atarbinian -c "input-remapper-control --command stop-all"
+ #            su atarbinian -c "input-remapper-control --command autoload"
+ #            sleep infinity
+ #          '';
+ #      });
+ #      wantedBy = [ "default.target" ];
+ #  };
+	#
+ #  systemd.services.ReloadInputRemapperAfterSleep = {
+ #      enable = true;
+ #      description = "Reload input-remapper config after sleep";
+ #      after = [ "suspend.target" ];
+ #      serviceConfig = {
+ #        User = "atarbinian";
+	# Type = "forking";
+ #      };
+ #      script = lib.getExe(pkgs.writeShellApplication {
+ #          name = "reload-input-mapper-config";
+ #          runtimeInputs = with pkgs; [input-remapper ps gawk];
+ #          text = ''
+ #              input-remapper-control --command stop-all
+ #              input-remapper-control --command autoload
+ #              sleep 1
+ #              until [[ $(ps aux | awk '$11~"input-remapper" && $12="<defunct>" {print $0}' | wc -l) -eq 0 ]]; do
+ #                input-remapper-control --command stop-all
+ #                input-remapper-control --command autoload
+ #                sleep 1
+ #              done
+ #         '';
+ #       });
+ #       wantedBy = [ "suspend.target" ];
+ #  };
+
+  hardware.enableAllFirmware = true;
+
   services.usbmuxd = {
     enable = true;
     package = pkgs.usbmuxd2;
@@ -61,7 +117,7 @@
   # virtualisation.vmVariant = {
   #     virtualisation = {
   #       memorySize =  2048; # Use 2048MiB memory.
-  #       cores = 3;         
+  #       cores = 3;
   #     };
   # };
 
@@ -87,9 +143,27 @@
     ];
   };
 
+  systemd.services.nix-daemon.environment.TMPDIR = "/var/tmp";
+
   boot = {
     tmp.useTmpfs = true;
     kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_13.override {
+    #     argsOverride = rec {
+    #       src = pkgs.fetchurl {
+    #             url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
+    #             sha256 = "sha256-KD7LB4Tz+8Ft2CL7HZZC4jDsdRXtM/Eg5VG4OfNV5uI=";
+    #       };
+    #       version = "6.15-rc2";
+    #       modDirVersion = "6.15-rc2";
+    #       };
+    #   });
+    # kernelPatches = [
+    #     {
+    #         name = "fw-amdgpu";
+    #         patch = ./0001-drm-amdgpu-mes11-optimize-MES-pipe-FW-version-fetchi.patch;
+    #     }
+    # ];
 
     loader = {
       efi = {
@@ -117,21 +191,40 @@
       acpi
       virtiofsd
       barrier
-      inputs.nix-xilinx.packages.${pkgs.system}.vitis
-      inputs.nix-xilinx.packages.${pkgs.system}.vitis_hls
-      inputs.nix-xilinx.packages.${pkgs.system}.vivado
-      inputs.nix-xilinx.packages.${pkgs.system}.model_composer
+      # inputs.nix-xilinx.packages.${pkgs.system}.vitis
+      # inputs.nix-xilinx.packages.${pkgs.system}.vitis_hls
+      # inputs.nix-xilinx.packages.${pkgs.system}.vivado
+      # inputs.nix-xilinx.packages.${pkgs.system}.model_composer
+      gvfs
       libimobiledevice
       ifuse
-      inputs.ghostty.packages.${pkgs.system}.default
+      # inputs.ghostty.packages.${pkgs.system}.default
       borgbackup
       qemu
       # qemu_full
       qemu-user
       nrfutil
       input-remapper
+      bluez
+      bluez-tools
+      linuxConsoleTools
+      jstest-gtk
+        (pkgs.python3.withPackages (python-pkgs: [
+          python-pkgs.sh
+          python-pkgs.pandas
+          python-pkgs.pyserial
+          python-pkgs.curl-cffi
+        ]))
+      vdhcoapp
+      lact
+      nvtopPackages.amd
+      wike
+      ttyper
     ];
   };
+
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = ["multi-user.target"];
 
 
   # static ip for PYNQ board
@@ -194,6 +287,9 @@
     #media-session.enable = true;
   };
 
+  # hardware.xone.enable = true;
+  # hardware.xpadneo.enable = true;
+
   boot.binfmt.emulatedSystems = [
       "aarch64-linux"
       "riscv64-linux"
@@ -229,60 +325,64 @@
   ];
   # enable udev rules from packages
   services.udev.packages = [
-    (pkgs.writeTextFile {
-      name = "51-android.rules";
-      text = ''
-        SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="4ee0", MODE="0666", GROUP="plugdev"
-      '';
-      destination = "/etc/udev/rules.d/51-android.rules";
-    })
-    (pkgs.writeTextFile {
-      name = "99-ftdi.rules";
-      text = ''
-        ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", MODE="0666"
-      '';
-      destination = "/etc/udev/rules.d/99-ftdi.rules";
-    })
-    (pkgs.writeTextFile {
-      name = "xilinx-dilligent-usb-udev";
-      destination = "/etc/udev/rules.d/52-xilinx-digilent-usb.rules";
-      text = ''
-        ATTR{idVendor}=="1443", MODE:="666"
-        ACTION=="add", ATTR{idVendor}=="0403", ATTR{manufacturer}=="Digilent", MODE:="666"
-      '';
-    })
-    (pkgs.writeTextFile {
-      name = "xilinx-pcusb-udev";
-      destination = "/etc/udev/rules.d/52-xilinx-pcusb.rules";
-      text = ''
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0007", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0009", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000d", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="000f", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", MODE="666"
-        ATTR{idVendor}=="03fd", ATTR{idProduct}=="0015", MODE="666"
-      '';
-    })
-    (pkgs.writeTextFile {
-      name = "xilinx-ftdi-usb-udev";
-      destination = "/etc/udev/rules.d/52-xilinx-ftdi-usb.rules";
-      text = ''
-        ACTION=="add", ATTR{idVendor}=="0403", ATTR{manufacturer}=="Xilinx", MODE:="666"
-      '';
-    })
+    # (pkgs.writeTextFile {
+    #   name = "51-android.rules";
+    #   text = ''
+    #     SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="4ee0", MODE="0666", GROUP="plugdev"
+    #   '';
+    #   destination = "/etc/udev/rules.d/51-android.rules";
+    # })
+    # (pkgs.writeTextFile {
+    #   name = "99-ftdi.rules";
+    #   text = ''
+    #     ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", MODE="0666"
+    #   '';
+    #   destination = "/etc/udev/rules.d/99-ftdi.rules";
+    # })
+    # (pkgs.writeTextFile {
+    #   name = "xilinx-dilligent-usb-udev";
+    #   destination = "/etc/udev/rules.d/52-xilinx-digilent-usb.rules";
+    #   text = ''
+    #     ATTR{idVendor}=="1443", MODE:="666"
+    #     ACTION=="add", ATTR{idVendor}=="0403", ATTR{manufacturer}=="Digilent", MODE:="666"
+    #   '';
+    # })
+    # (pkgs.writeTextFile {
+    #   name = "xilinx-pcusb-udev";
+    #   destination = "/etc/udev/rules.d/52-xilinx-pcusb.rules";
+    #   text = ''
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="0008", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="0007", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="0009", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="000d", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="000f", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="0013", MODE="666"
+    #     ATTR{idVendor}=="03fd", ATTR{idProduct}=="0015", MODE="666"
+    #   '';
+    # })
+    # (pkgs.writeTextFile {
+    #   name = "xilinx-ftdi-usb-udev";
+    #   destination = "/etc/udev/rules.d/52-xilinx-ftdi-usb.rules";
+    #   text = ''
+    #     ACTION=="add", ATTR{idVendor}=="0403", ATTR{manufacturer}=="Xilinx", MODE:="666"
+    #   '';
+    # })
     old-pkgs.segger-jlink
     pkgs.saleae-logic-2
     my-pkgs.nrf-udev
-    pkgs.platformio-core.udev
-    pkgs.platformio-core
-    pkgs.openocd
+    # # pkgs.platformio-core.udev
+    # # pkgs.platformio-core
+    # pkgs.openocd
+    pkgs.game-devices-udev-rules
   ];
+
+  hardware.uinput.enable = true;
 
   # https://wiki.nixos.org/wiki/Hardware/Framework/Laptop_16#Prevent_wake_up_in_backpack
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0012", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="32ac", ATTRS{idProduct}=="0014", ATTR{power/wakeup}="disabled", ATTR{driver/1-1.1.1.4/power/wakeup}="disabled"
     SUBSYSTEM=="usbmon", GROUP="wireshark", MODE="0640"
+    ACTION=="add|change", KERNEL=="hidraw*", SUBSYSTEM=="hidraw", DRIVERS=="xpadneo", MODE:="0000", TAG-="uaccess"
   '';
 }

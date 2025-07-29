@@ -34,13 +34,13 @@
 
     joplin-desktop
     # obsidian
-    okular
+    kdePackages.okular
+    kdePackages.kdenlive
     neovide
 
     vlc
     mpv
     obs-studio
-    kdenlive
     blender
 
     pavucontrol
@@ -88,5 +88,9 @@
     tangram
     zed-editor
     feishin
+    errands
+    freecad-wayland
+    librecad
+    youtube-music
   ];
 }

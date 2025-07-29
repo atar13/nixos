@@ -7,6 +7,7 @@
     ../../../../modules/home/theme.nix
     ../../../../modules/home/vscode.nix
     (import ../../../../modules/home/gnome.nix { inherit lib pkgs osConfig; })
+    (import ../../../../modules/home/dwm.nix { inherit lib pkgs osConfig; inherit (inputs) dotfiles; })
     (import ../../../../modules/home/hyprland.nix { inherit lib pkgs osConfig; })
     ../../../../modules/home/firefox.nix
     (import ../../../../modules/home/spicetify.nix { inherit pkgs; inherit (inputs) spicetify-nix; })

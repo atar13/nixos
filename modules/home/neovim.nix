@@ -79,7 +79,7 @@ let
       owner = "b-src";
       repo = "lazy-nix-helper.nvim";
       rev = "main";
-      hash = "sha256-HwrO32Sj1FUWfnOZQYQ4yVgf/TQZPw0Nl+df/j0Jhbc=";
+      hash = "sha256-4DyuBMp83vM344YabL2SklQCg6xD7xGF5CvQP2q+W7A=";
     };
   };
 
@@ -88,8 +88,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "cljoly";
       repo = "telescope-repo.nvim";
-      rev = "ca8a541eeb9cba5061db864a2927507a79882a88";
-      hash = "sha256-kMHFLkRlo0GPG03CqtpRcr/NgCnQkswX8ifX1b336Aw=";
+      rev = "a5395a4bf0fd742cc46b4e8c50e657062f548ba9";
+      hash = "sha256-cIovB45hfG4lDK0VBIgK94dk2EvGXZtfAJETkQ+lrcw=";
     };
   };
 
@@ -186,13 +186,13 @@ in
   xdg.configFile = {
     "nvim/lua" = {
       recursive = true;
-      # source = "${dotfiles}/nvim/.config/nvim/lua";
-      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua/";
+      source = "${dotfiles}/nvim/.config/nvim/lua";
+      # source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua/";
     };
     "nvim/after" = {
       recursive = true;
-      # source = "${dotfiles}/nvim/.config/nvim/after";
-      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
+      source = "${dotfiles}/nvim/.config/nvim/after";
+      # source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
     };
   };
 
@@ -209,6 +209,9 @@ in
     glslls
     pyright
     djlint
+    autotools-language-server
+    tree-sitter
+    nodejs
   ];
 
   programs.neovim = {
@@ -268,7 +271,7 @@ in
       todo-comments-nvim
       # nvim-treesitter
       # nvim-treesitter.withAllGrammars
-      # treesitterWithGrammars
+      treesitterWithGrammars
       # (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
       rustaceanvim
     ];

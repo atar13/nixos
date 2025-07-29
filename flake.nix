@@ -25,7 +25,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # spicetify-nix.url = "github:the-argus/spicetify-nix";
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -71,6 +70,7 @@
               "googleearth-pro-7.3.4.8248"
               "segger-jlink-qt4-796s"
               "segger-jlink-qt4-810"
+              "electron-33.4.11"
             ];
           };
           old-pkgs = import nixpkgs-old {

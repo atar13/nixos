@@ -2,94 +2,96 @@
 {
   programs.vscode = {
     enable = true;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-    # package = pkgs.vscodium;
-    keybindings = [
-      {
-        key = "ctrl+p";
-        # https://code.visualstudio.com/docs/getstarted/keybindings
-        command = "workbench.action.quickOpen";
-        # https://code.visualstudio.com/api/references/when-clause-contexts
-        # when = "";
-      }
-    ];
-    userSettings = {
-      # "workbench.colorTheme" = "Firefox Dark";
-      "files.autoSave" = "afterDelay";
-      "[nix]"."editor.tabSize" = 2;
-      "[html]" = {
-        "editor.defaultFormatter" = "esbenp.prettier-vscode";
-      };
-      "platformio-ide.useBuiltinPIOCore" = true;
-      "editor.accessibilitySupport" = "off";
-      "editor.wordWrap" = "on";
-      # "java.home" = "/run/current-system/sw/lib/openjdk";
+    profiles.default = {
+        enableUpdateCheck = false;
+        enableExtensionUpdateCheck = false;
+        # package = pkgs.vscodium;
+        keybindings = [
+          {
+            key = "ctrl+p";
+            # https://code.visualstudio.com/docs/getstarted/keybindings
+            command = "workbench.action.quickOpen";
+            # https://code.visualstudio.com/api/references/when-clause-contexts
+            # when = "";
+          }
+        ];
+        userSettings = {
+          # "workbench.colorTheme" = "Firefox Dark";
+          "files.autoSave" = "afterDelay";
+          "[nix]"."editor.tabSize" = 2;
+          "[html]" = {
+            "editor.defaultFormatter" = "esbenp.prettier-vscode";
+          };
+          "platformio-ide.useBuiltinPIOCore" = true;
+          "editor.accessibilitySupport" = "off";
+          "editor.wordWrap" = "on";
+          # "java.home" = "/run/current-system/sw/lib/openjdk";
+        };
+        extensions = with pkgs.vscode-extensions; [
+          vscodevim.vim
+          ms-vsliveshare.vsliveshare
+
+          jnoortheen.nix-ide
+          ms-python.python
+          ms-azuretools.vscode-docker
+          ms-vscode-remote.remote-ssh
+          ms-vscode-remote.remote-containers
+          ms-vscode.cpptools
+          ms-toolsai.jupyter
+          mechatroner.rainbow-csv
+
+          marp-team.marp-vscode
+          ritwickdey.liveserver
+          esbenp.prettier-vscode
+          rust-lang.rust-analyzer
+
+          # vscjava.vscode-java-pack
+          # vscjava.vscode-java-debug
+          # redhat.java
+          #
+          piousdeer.adwaita-theme
+          viktorqvarfordt.vscode-pitch-black-theme
+          arrterian.nix-env-selector
+          james-yu.latex-workshop
+        ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          # {
+          #   name = "firefox-devtools-theme";
+          #   publisher = "Heron";
+          #   version = "4.10.1";
+          #   sha256 = "9+Dw1FQSL1r4Te2N3Jm4wrj2rQ7LHE+6m2E4X+K+S5M=";
+          # }
+          {
+            name = "pytrail";
+            publisher = "Samir-Rashid";
+            version = "0.0.3";
+            sha256 = "WO+OzUNSmDcAB5U9tmKIXPijTEekRkl1D0Hw68hmN6g=";
+          }
+          {
+            name = "platformio-ide";
+            publisher = "PlatformIO";
+            version = "3.3.3";
+            sha256 = "cVYnFhdeClHhuVaTWRU2IDIA1mFq1iLveZUIhEhMSck=";
+          }
+          {
+            name = "vscode-sshfs";
+            publisher = "Kelvin";
+            version = "1.26.1";
+            sha256 = "WO9vYELNvwmuNeI05sUBE969KAiKYtrJ1fRfdZx3OYU=";
+          }
+          {
+            name = "nrf-connect";
+            publisher = "nordic-semiconductor";
+            version = "2024.12.55";
+            sha256 = "Thh73IE7k8jOvlakzSRSIUG0z3ur1r2+3VFd+TpgK8A=";
+          }
+          {
+            name = "lean4";
+            publisher = "leanprover";
+            version = "0.0.186";
+            sha256 = "lkfMDIed+jw+5tnitv9V68BoohRwsIbAJ/7syDlo9KQ=";
+          }
+        ];
     };
-    extensions = with pkgs.vscode-extensions; [
-      vscodevim.vim
-      ms-vsliveshare.vsliveshare
-
-      jnoortheen.nix-ide
-      ms-python.python
-      ms-azuretools.vscode-docker
-      ms-vscode-remote.remote-ssh
-      ms-vscode-remote.remote-containers
-      ms-vscode.cpptools
-      ms-toolsai.jupyter
-      mechatroner.rainbow-csv
-
-      marp-team.marp-vscode
-      ritwickdey.liveserver
-      esbenp.prettier-vscode
-      # rust-lang.rust-analyzer
-
-      # vscjava.vscode-java-pack
-      # vscjava.vscode-java-debug
-      # redhat.java
-      #
-      piousdeer.adwaita-theme
-      viktorqvarfordt.vscode-pitch-black-theme
-      arrterian.nix-env-selector
-      james-yu.latex-workshop
-    ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      # {
-      #   name = "firefox-devtools-theme";
-      #   publisher = "Heron";
-      #   version = "4.10.1";
-      #   sha256 = "9+Dw1FQSL1r4Te2N3Jm4wrj2rQ7LHE+6m2E4X+K+S5M=";
-      # }
-      {
-        name = "pytrail";
-        publisher = "Samir-Rashid";
-        version = "0.0.3";
-        sha256 = "WO+OzUNSmDcAB5U9tmKIXPijTEekRkl1D0Hw68hmN6g=";
-      }
-      {
-        name = "platformio-ide";
-        publisher = "PlatformIO";
-        version = "3.3.3";
-        sha256 = "cVYnFhdeClHhuVaTWRU2IDIA1mFq1iLveZUIhEhMSck=";
-      }
-      {
-        name = "vscode-sshfs";
-        publisher = "Kelvin";
-        version = "1.26.1";
-        sha256 = "WO9vYELNvwmuNeI05sUBE969KAiKYtrJ1fRfdZx3OYU=";
-      }
-      {
-        name = "nrf-connect";
-        publisher = "nordic-semiconductor";
-        version = "2024.12.55";
-        sha256 = "Thh73IE7k8jOvlakzSRSIUG0z3ur1r2+3VFd+TpgK8A=";
-      }
-      {
-        name = "lean4";
-        publisher = "leanprover";
-        version = "0.0.186";
-        sha256 = "lkfMDIed+jw+5tnitv9V68BoohRwsIbAJ/7syDlo9KQ=";
-      }
-    ];
   };
 
   #   environment.systemPackages = with pkgs; [
