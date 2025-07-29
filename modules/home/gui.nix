@@ -19,8 +19,13 @@ in
   };
 
   gtk.gtk3.bookmarks = [
+    "file:///home/${username}/Downloads"
+    "file:///home/${username}/Documents"
     "file:///home/${username}/Dev"
     "file:///home/${username}/Pkgs"
+    "file:///home/${username}/nixos"
+    "file:///home/${username}/dotfiles"
+    "file:///home/${username}/Pictures"
   ];
 
 
