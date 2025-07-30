@@ -209,8 +209,8 @@ in
     glslls
     pyright
     djlint
-    autotools-language-server
-    tree-sitter
+    # autotools-language-server
+    # tree-sitter
     nodejs
   ];
 
@@ -270,8 +270,8 @@ in
       toggleterm-nvim
       todo-comments-nvim
       # nvim-treesitter
-      # nvim-treesitter.withAllGrammars
-      treesitterWithGrammars
+      nvim-treesitter.withAllGrammars
+      # treesitterWithGrammars
       # (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
       rustaceanvim
     ];

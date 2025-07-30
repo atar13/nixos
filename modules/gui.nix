@@ -46,7 +46,7 @@
     pavucontrol
     pulseaudio
     appimage-run
-    ulauncher
+    # ulauncher
     timeshift
 
     xterm
@@ -74,7 +74,7 @@
     saleae-logic-2
     old-pkgs.etcher
     gpick
-    audacity
+    # audacity
     cool-retro-term
     arduino-ide
     hoppscotch
