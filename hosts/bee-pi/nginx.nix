@@ -23,7 +23,7 @@
       ];
       locations."/" = {
         proxyPass = "http://127.0.0.1:3001";
-        proxyWebsockets = true;
+        # proxyWebsockets = true;
         extraConfig = ''
           client_max_body_size 50000M;
           proxy_set_header Host              $host;
@@ -31,10 +31,11 @@
           proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
 
-          # http://nginx.org/en/docs/http/websocket.html
+          # enable websockets: http://nginx.org/en/docs/http/websocket.html
+          proxy_http_version 1.1;
           proxy_set_header   Upgrade    $http_upgrade;
-          proxy_set_header   Connection "Upgrade";
-          proxy_redirect off;
+          proxy_set_header   Connection "upgrade";
+          proxy_redirect     off;
 
           # set timeout
           proxy_read_timeout 600s;
@@ -168,13 +169,46 @@
       enableACME = true;
       acmeRoot = null;
       addSSL = true;
-      serverAliases = [
-        "kavita.atarbinian.com"
-      ];
+      # serverAliases = [
+      #   "kavita.atarbinian.com"
+      # ];
       locations."/" = {
-        proxyPass = "http://127.0.0.1:5000";
+        proxyPass = "http://127.0.0.1:4534";
       };
     };
+
+    virtualHosts."music.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:4533";
+      };
+    };
+
+    virtualHosts."grocry.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9283";
+        extraConfig = ''
+            try_files $uri /index.php$is_args$query_string;
+        '';
+      };
+    };
+
+    # virtualHosts."notes.atarbinian.com" = {
+    #   enableACME = true;
+    #   acmeRoot = null;
+    #   addSSL = true;
+    #   locations."/" = {
+    #     proxyPass = "http://127.0.0.1:22300";
+    #     extraConfig = ''
+    #       proxy_set_header Host notes.atarbinian.com;
+    #     '';
+    #   };
+    # };
 
     # virtualHosts."traggo.atarbinian.com" = {
     #   enableACME = true;
@@ -206,12 +240,12 @@
     virtualHosts."minecraft.atarbinian.com" = {
       listen = [
         {
-            addr = "0.0.0.0";
-            port = 25565; 
+          addr = "0.0.0.0";
+          port = 25565;
         }
         {
-            addr = "[::0]";
-            port = 25565; 
+          addr = "[::0]";
+          port = 25565;
         }
       ];
       enableACME = true;
@@ -229,19 +263,11 @@
       locations."/" = {
         proxyPass = "http://127.0.0.1:7080";
         extraConfig = ''
-            proxy_buffering       off;
-            client_max_body_size  0;
-            proxy_read_timeout    120s;
-            proxy_connect_timeout 90s;
-            proxy_send_timeout    90s;
-            proxy_redirect        off;
-            proxy_set_header      Host $host;
-            proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header      X-Forwarded-Proto $scheme;
-            proxy_set_header      X-Forwarded-Ssl on;
-            proxy_set_header      Connection "";
-            proxy_pass_header     Date;
-            proxy_pass_header     Server;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header REMOTE-HOST $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            proxy_redirect off;
         '';
       };
     };
@@ -284,14 +310,77 @@
     #     proxyPass = "http://127.0.0.1:3456/";
     #   };
     # };
+    virtualHosts."home.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:7575";
+      };
+    };
+
+    virtualHosts."dash.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3002";
+      };
+    };
+
+    virtualHosts."krist.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:4040";
+      };
+    };
+
+    virtualHosts."multi.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9078";
+      };
+    };
+
+    virtualHosts."koito.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:4110";
+      };
+    };
+
+    virtualHosts."maloja.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      addSSL = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:42010";
+      };
+    };
+
+    # virtualHosts."audiobooks.atarbinian.com" = {
+    #   enableACME = true;
+    #   acmeRoot = null;
+    #   addSSL = true;
+    #   locations."/" = {
+    #     proxyPass = "http://127.0.0.1:4534";
+    #   };
+    # };
+
   };
 
   security.acme = {
-      acceptTerms = true;
-      defaults.email = "me@atarbinian.com";
-      defaults = {
-          dnsProvider = "porkbun";
-          credentialsFile = config.age.secrets.acme-porkbun.path; 
-      };
+    acceptTerms = true;
+    defaults.email = "me@atarbinian.com";
+    defaults = {
+      dnsProvider = "porkbun";
+      credentialsFile = config.age.secrets.acme-porkbun.path;
+    };
   };
 }

@@ -10,11 +10,11 @@
     };
   };
 
-  programs.direnv = {
-    enable = true;
-    silent = true;
-    loadInNixShell = true;
-  };
+  # programs.direnv = {
+  #   enable = true;
+  #   silent = true;
+  #   loadInNixShell = true;
+  # };
 
   environment.systemPackages = with pkgs; [
     git
@@ -54,7 +54,7 @@
     feh
     scrot
     ffmpeg
-    yt-dlp
+    # yt-dlp
     croc
     gocryptfs
 
@@ -73,7 +73,7 @@
 
     cargo
 
-    taskwarrior
+    # taskwarrior
     git-sizer
     apostrophe
     hugo
@@ -100,5 +100,6 @@
     dig
     just
     du-dust
+    immich-go
   ];
 }

@@ -79,7 +79,7 @@ let
       owner = "b-src";
       repo = "lazy-nix-helper.nvim";
       rev = "main";
-      hash = "sha256-TBDZGj0NXkWvJZJ5ngEqbhovf6RPm9N+Rmphz92CS3Q=";
+     hash = "sha256-4DyuBMp83vM344YabL2SklQCg6xD7xGF5CvQP2q+W7A=";
     };
   };
 
@@ -190,8 +190,8 @@ in
     };
     "nvim/after" = {
       recursive = true;
-      # source = "${dotfiles}/nvim/.config/nvim/after";
-      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
+      source = "${dotfiles}/nvim/.config/nvim/after";
+      # source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
     };
   };
 
@@ -229,12 +229,12 @@ in
       vim-rooter
 
       nvim-lspconfig
-      nvim-cmp-unstable
-      cmp-nvim-lsp
-      cmp-buffer
-      cmp-path
-      cmp_luasnip
-      cmp-nvim-lua
+      # nvim-cmp-unstable
+      # cmp-nvim-lsp
+      # cmp-buffer
+      # cmp-path
+      # cmp_luasnip
+      # cmp-nvim-lua
       luasnip
       friendly-snippets
       nvim-lint
@@ -242,8 +242,8 @@ in
 
       oxocarbon-nvim
       nightfox-nvim
-      noctis-nvim
-      lush-nvim
+      # noctis-nvim
+      # lush-nvim
 
       barbar-nvim
       nvim-web-devicons

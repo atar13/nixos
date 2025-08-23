@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-    programs.firefox = {
-        enable = true;
-        package = null;
+  programs.firefox = {
+    enable = true;
+    package = null;
 
-    };
+  };
 }

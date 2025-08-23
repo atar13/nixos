@@ -13,6 +13,8 @@
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-old.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-new.url = "github:NixOS/nixpkgs/nixos-unstable";
+    my-nixpkgs.url = "github:atar13/nixpkgs?ref=soundalike";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -34,7 +36,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, nixos-hardware, ... }:
+  outputs = inputs @ { nixpkgs, nixpkgs-old, home-manager, nixos-hardware, nixpkgs-new, my-nixpkgs, ... }:
     let
       defaultUser = "atarbinian";
 
@@ -52,7 +54,7 @@
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
             config.permittedInsecurePackages = [
-                "googleearth-pro-7.3.4.8248"
+              "googleearth-pro-7.3.4.8248"
             ];
           };
           old-pkgs = import nixpkgs-old {
@@ -60,8 +62,20 @@
             config.allowUnfree = true;
             config.segger-jlink.acceptLicense = true;
             config.permittedInsecurePackages = [
-                "electron-12.2.3"
+              "electron-12.2.3"
             ];
+          };
+          new-pkgs = import nixpkgs-new {
+            system = machine.system;
+            config.allowUnfree = true;
+            config.segger-jlink.acceptLicense = true;
+            config.permittedInsecurePackages = [
+              "electron-12.2.3"
+            ];
+          };
+        my-pkgs = import my-nixpkgs {
+            system = machine.system;
+            config.allowUnfree = true;
           };
           config = config;
         in
@@ -69,7 +83,7 @@
           modules = [
             inputs.agenix.nixosModules.default
             ({ config, lib, ... }:
-              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs nixos-hardware; hostname = machine.name; })
+              (import ./hosts/${machine.name} { inherit lib config inputs pkgs old-pkgs new-pkgs nixos-hardware my-pkgs; hostname = machine.name; })
             )
             home-manager.nixosModules.home-manager
             {

@@ -126,6 +126,41 @@
           publicKey = "bAB23zaxI2l5sj5rSugkkP5UEigPBePkuJtLSZeIjHA=";
           allowedIPs = [ "10.0.0.19/32" ];
         }
+        {
+          publicKey = "8JYb5GRfSDdtAIxLoCV/zxl8C350w29VPEGv6z868CE=";
+          allowedIPs = [ "10.0.0.20/32" ];
+        }
+        {
+          publicKey = "jR9MlRxi4K5LE96E7iy5cB0m/0ubOc9+jDDL2zWOgig=";
+          allowedIPs = [ "10.0.0.21/32" ];
+        }
+        {
+          publicKey = "8LZFmGVEtyvgppmLopwHGjIsCGgldtDGguyKDDP9WSU=";
+          allowedIPs = [ "10.0.0.22/32" ];
+        }
+        {
+          publicKey = "TX3AymryQTnwhhd/zAi/+VaSYGwPRRUD5toiJ5f9R0U=";
+          allowedIPs = [ "10.0.0.23/32" ];
+        }
+        {
+          publicKey = "AaRD1MwfoxUanpfde4nVYFxO4HYcwutgfrcJ+MXyP2A=";
+          allowedIPs = [ "10.0.0.24/32" ];
+        }
+        # dell nixos
+        {
+          publicKey = "v3heG7MHCa6XN+cjGl45GIDnK7O85Q0OsGnJ9qPDfQ8=";
+          allowedIPs = [ "10.0.0.25/32" ];
+        }
+        # kris dell2
+        {
+          publicKey = "4CdCQ6uerCVASEpPteBC6TLTMHGdAXkI97U18kzRew4=";
+          allowedIPs = [ "10.0.0.26/32" ];
+        }
+        # tv-firestick
+        {
+          publicKey = "7VZdOlHyRsIKMEdO59EJXB+xnHBjmORy/GUR/w4zaHw=";
+          allowedIPs = [ "10.0.0.27/32" ];
+        }
       ];
     };
   };

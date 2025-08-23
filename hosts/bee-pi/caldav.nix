@@ -19,8 +19,21 @@
         htpasswd_encryption = "plain";
       };
       storage = {
-        filesystem_folder = "/data/radicale/collections";
+        filesystem_folder = "/pool/data/radicale/collections";
       };
     };
   };
+
+
+  # services.xandikos = {
+  #     enable = true;
+  #     port = 5232;
+  #     extraOptions = [ 
+  #         "--autocreate"
+  #         "-d /data/xandikos"
+  #         "--defaults"
+  #         "--current-user-principal user"
+  #         "--dump-dav-xml"
+  #     ];
+  # };
 }

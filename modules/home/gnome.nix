@@ -24,7 +24,7 @@
     };
 
     "org/gnome/desktop/peripherals/touchpad" = {
-        tap-to-click = true;
+      tap-to-click = true;
     };
 
 
