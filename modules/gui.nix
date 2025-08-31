@@ -92,5 +92,8 @@
     freecad-wayland
     librecad
     youtube-music
+    delfin
+    jellyfin-media-player
+    smile
   ];
 }
