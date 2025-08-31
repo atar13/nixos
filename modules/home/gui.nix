@@ -2,6 +2,8 @@
 let
   browser = "firefox.desktop";
   pdf = "mupdf.desktop";
+  img = "org.gnome.Loupe.desktop";
+  signal = "signal.desktop";
 in
 {
   xdg.mimeApps = {
@@ -13,8 +15,13 @@ in
       "x-scheme-handler/https" = browser;
       "x-scheme-handler/about" = browser;
       "x-scheme-handler/unknown" = browser;
+      "x-scheme-handler/sgnl" = signal;
+      "x-scheme-handler/signalcaptcha" = signal; 
 
       "application/pdf" = pdf;
+
+      "image/jpeg" = img;
+      "image/png" = img;
     };
   };
 
