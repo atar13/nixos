@@ -161,6 +161,16 @@
           publicKey = "7VZdOlHyRsIKMEdO59EJXB+xnHBjmORy/GUR/w4zaHw=";
           allowedIPs = [ "10.0.0.27/32" ];
         }
+        # pc
+        {
+          publicKey = "AuIoMirev4+KP0O6U3ur6u/iF2fXNwb+Kf0iJZXGkno=";
+          allowedIPs = [ "10.0.0.28/32" ];
+        }
+        # bob-fire
+        {
+          publicKey = "P4uQXvxWZvijEffWXoXmTET+GR9XSjgfPfguqNKH53k=";
+          allowedIPs = [ "10.0.0.29/32" ];
+        }
       ];
     };
   };
