@@ -97,15 +97,15 @@
   #  };
 
   services.scrutiny = {
-      enable = true;
-      openFirewall = true;
-      settings.web.listen.port = 9991;
+    enable = true;
+    openFirewall = true;
+    settings.web.listen.port = 9991;
   };
 
   services.cockpit = {
-      enable = false;
-      openFirewall = true;
-      port = 9992;
+    enable = false;
+    openFirewall = true;
+    port = 9992;
   };
 
   age.secrets.spotify-id.file = ../../secrets/spotify-id.age;
@@ -129,78 +129,107 @@
   };
 
   services.polaris = {
-      enable = false;
-      group = "media";
-      port = 5050;
-      openFirewall = true;
-      settings = {
-          settings.reindex_every_n_seconds = 60*60; # weekly, default is 1800
-          settings.album_art_pattern = "(cover|front|folder)\.(jpeg|jpg|png|bmp|gif)";
-          mount_dirs = [
-            {
-              name = "Library";
-              source = "/data/Media/music_testing/library/";
-            }
-          ];
+    enable = false;
+    group = "media";
+    port = 5050;
+    openFirewall = true;
+    settings = {
+      settings.reindex_every_n_seconds = 60 * 60; # weekly, default is 1800
+      settings.album_art_pattern = "(cover|front|folder)\.(jpeg|jpg|png|bmp|gif)";
+      mount_dirs = [
+        {
+          name = "Library";
+          source = "/data/Media/music_testing/library/";
+        }
+      ];
     };
   };
 
   services.audiobookshelf = {
-      enable = true;
-      host = "0.0.0.0";
-      port = 4534;
-      group = "media";
-      openFirewall = false;
+    enable = true;
+    host = "0.0.0.0";
+    port = 4534;
+    group = "media";
+    openFirewall = false;
   };
 
   services.gonic = {
-      enable = false;
-      settings = {
-          listen-addr = "0.0.0.0:4747";
-          music-path = "/pool/data/Media/krist_music/";
-          playlists-path = "/pool/data/gonic_old/playlists/";
-          podcast-path = "/pool/data/gonic_old/podcast/";
-          cache-path = "/var/cache/gonic/";
-          # db-path = "/pool/data/gonic_old/data/gonic.db";
-          scan-watcher-enabled = true;
-      };
+    enable = false;
+    settings = {
+      listen-addr = "0.0.0.0:4747";
+      music-path = "/pool/data/Media/krist_music/";
+      playlists-path = "/pool/data/gonic_old/playlists/";
+      podcast-path = "/pool/data/gonic_old/podcast/";
+      cache-path = "/var/cache/gonic/";
+      # db-path = "/pool/data/gonic_old/data/gonic.db";
+      scan-watcher-enabled = true;
+    };
   };
 
   services.airsonic = {
-      enable = true;
-      port = 4040;
-      # user = "media";
-      # virtualHost = "krist.atarbinian.com";
-      listenAddress = "0.0.0.0";
+    enable = true;
+    port = 4040;
+    # user = "media";
+    # virtualHost = "krist.atarbinian.com";
+    listenAddress = "0.0.0.0";
   };
 
   services.webdav = {
-      enable = true;
-      user = "webdav";
-      group = "webdav";
-      environmentFile = config.age.secrets.webdav.path;
-      settings = {
-          address = "0.0.0.0";
-          port = 7080;
-          debug = true;
-          # directory = "/data/webdav/joplin/atarbinian/";
-          users = [
-            {
+    enable = true;
+    user = "webdav";
+    group = "webdav";
+    environmentFile = config.age.secrets.webdav.path;
+    settings = {
+      address = "0.0.0.0";
+      port = 7080;
+      debug = true;
+      # directory = "/data/webdav/joplin/atarbinian/";
+      users = [
+        {
 
-              username = "{env}JOPLIN_ATARBINIAN_USERNAME";
-              password = "{env}JOPLIN_ATARBINIAN_PASSWORD";
-              permissions = "CRUD";
-              scope = "/pool/data/webdav/joplin/atarbinian/";
-              modify = true;
-              auth = true;
-            }
-            # {
-            #   username = "rad";
-            #   password = "rad";
-            #   directory = "/data/webdav/joplin/atarbinian/";
-            # }
-          ];
+          username = "{env}JOPLIN_ATARBINIAN_USERNAME";
+          password = "{env}JOPLIN_ATARBINIAN_PASSWORD";
+          permissions = "CRUD";
+          scope = "/pool/data/webdav/joplin/atarbinian/";
+          modify = true;
+          auth = true;
+        }
+        # {
+        #   username = "rad";
+        #   password = "rad";
+        #   directory = "/data/webdav/joplin/atarbinian/";
+        # }
+      ];
+    };
+  };
+
+
+  services.home-assistant = {
+    enable = true;
+    openFirewall = true;
+    extraComponents = [
+      # Components required to complete the onboarding
+      "analytics"
+      "google_translate"
+      "met"
+      "radio_browser"
+      "shopping_list"
+      # Recommended for fast zlib compression
+      # https://www.home-assistant.io/integrations/isal
+      "isal"
+      "homeassistant_hardware"
+      "zha"
+    ];
+    config = {
+      # Includes dependencies for a basic setup
+      # https://www.home-assistant.io/integrations/default_config/
+      default_config = { };
+      http = {
+        server_host = "::1";
+        trusted_proxies = [ "::1" ];
+        use_x_forwarded_for = true;
       };
+    };
   };
 
   # services.nextcloud = {                

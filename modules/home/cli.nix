@@ -4,6 +4,7 @@
 {
   home.file = {
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
+    
   };
 
   xdg.configFile = {

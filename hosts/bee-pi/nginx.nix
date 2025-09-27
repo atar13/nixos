@@ -364,6 +364,24 @@
       };
     };
 
+    virtualHosts."nogy.atarbinian.com" = {
+      enableACME = true;
+      acmeRoot = null;
+      forceSSL = true;
+      extraConfig = ''
+        proxy_buffering off;
+          # enable websockets: http://nginx.org/en/docs/http/websocket.html
+          proxy_http_version 1.1;
+          proxy_set_header   Upgrade    $http_upgrade;
+          proxy_set_header   Connection "upgrade";
+          proxy_redirect     off;
+      '';
+      locations."/" = {
+        proxyPass = "http://[::1]:8123";
+        proxyWebsockets = true;
+      };
+    };
+
     # virtualHosts."audiobooks.atarbinian.com" = {
     #   enableACME = true;
     #   acmeRoot = null;
