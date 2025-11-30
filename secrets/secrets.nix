@@ -47,5 +47,11 @@ in
 
   "joplin-env.age".publicKeys = authorized;
   "webdav.age".publicKeys = authorized;
+  
+  "spotify.id.age".publicKeys = authorized;
+  "spotify-secret.age".publicKeys = authorized;
+
+  "nextcloud-admin.age".publicKeys = authorized;
+  "nextcloud-db-password.age".publicKeys = authorized;
 }
 
