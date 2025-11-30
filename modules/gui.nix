@@ -93,7 +93,7 @@
     librecad
     youtube-music
     delfin
-    jellyfin-media-player
+    # jellyfin-media-player
     smile
     libnotify
     sticky

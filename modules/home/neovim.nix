@@ -70,7 +70,7 @@
 #   };
 # }
 
-{ dotfiles, pkgs, config, lib, ... }:
+{ lib, pkgs, dotfiles, ... }:
 
 let
   lazy-nix-helper-nvim = pkgs.vimUtils.buildVimPlugin {

@@ -110,15 +110,4 @@ with lib;
       # gnomeExtensions.advanced-alttab-window-switcher
     ];
   };
-
-  home.packages = with pkgs; [
-    gnomeExtensions.appindicator
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.vitals
-    gnomeExtensions.sound-output-device-chooser
-    gnomeExtensions.quick-settings-tweaker
-    gnomeExtensions.quick-settings-audio-panel
-    gnomeExtensions.space-bar
-    # gnomeExtensions.advanced-alttab-window-switcher
-  ];
 }

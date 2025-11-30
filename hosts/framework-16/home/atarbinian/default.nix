@@ -3,7 +3,7 @@
   imports = [
     (import ../../../../modules/home/cli.nix { inherit (inputs) dotfiles; inherit pkgs; })
     (import ../../../../modules/home/gui.nix { inherit username; })
-    (import ../../../../modules/home/neovim.nix { inherit (inputs) dotfiles; inherit pkgs config lib; })
+    (import ../../../../modules/home/neovim.nix { inherit lib pkgs; inherit (inputs) dotfiles; })
     ../../../../modules/home/theme.nix
     ../../../../modules/home/vscode.nix
     (import ../../../../modules/home/gnome.nix { inherit lib pkgs osConfig; })
