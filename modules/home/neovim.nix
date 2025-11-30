@@ -205,7 +205,7 @@ in
     # black
     # clangd
     nil
-    glslls
+    # glslls
   ];
 
   programs.neovim = {

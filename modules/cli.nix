@@ -27,7 +27,7 @@
     fzf
     ripgrep
     fd
-    lfs
+    dysk
     zoxide
     starship
     stow
@@ -99,7 +99,7 @@
 
     dig
     just
-    du-dust
+    dust
     immich-go
   ];
 }

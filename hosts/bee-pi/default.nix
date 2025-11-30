@@ -17,10 +17,11 @@
     ../../modules/lib.nix
     ../../modules/localization.nix
     (import ../../modules/nix.nix { inherit inputs pkgs; })
+    ../../modules/bluetooth.nix
     # ./gonic.nix
     # ./joplin.nix
     ./homarr.nix
-    ./dash.nix
+    # ./dash.nix
   ];
   age.secrets.joplin-env.file = ../../secrets/joplin-env.age;
   age.secrets.webdav.file = ../../secrets/webdav.age;
@@ -37,10 +38,11 @@
 
   networking.hostName = hostname; # Define your hostname.
   networking.networkmanager.enable = true;
+  networking.networkmanager.insertNameservers = [ "9.9.9.9" "1.1.1.1" ];
   networking.firewall = {
     enable = true;
-    allowedUDPPorts = [ 3001 5432 5433 8800 8001 8888 7575 4747 ];
-    allowedTCPPorts = [ 3001 5432 5433 8800 8001 8888 7575 4747 ];
+    allowedUDPPorts = [ 3001 5432 5433 8800 8001 8888 7575 4747 9980 ];
+    allowedTCPPorts = [ 3001 5432 5433 8800 8001 8888 7575 4747 9980 ];
   };
 
   # services.localtimed.enable = true;
@@ -71,7 +73,7 @@
     extraPackages = with pkgs; [
       intel-media-driver
       intel-vaapi-driver # previously vaapiIntel
-      vaapiVdpau
+      libva-vdpau-driver
       libvdpau-va-gl
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
       vpl-gpu-rt # QSV on 11th gen or newer
@@ -97,7 +99,7 @@
   #  };
 
   services.scrutiny = {
-    enable = true;
+    enable = false;
     openFirewall = true;
     settings.web.listen.port = 9991;
   };
@@ -108,8 +110,8 @@
     port = 9992;
   };
 
-  age.secrets.spotify-id.file = ../../secrets/spotify-id.age;
-  age.secrets.spotify-secret.file = ../../secrets/spotify-secret.age;
+  # age.secrets.spotify-id.file = ../../secrets/spotify-id.age;
+  # age.secrets.spotify-secret.file = ../../secrets/spotify-secret.age;
 
   services.navidrome = {
     enable = true;
@@ -121,10 +123,10 @@
       CacheFolder = "/pool/data/Media/music_testing/cache/";
       BaseUrl = "https://music.atarbinian.com";
       UIWelcomeMessage = "parev";
-      Spotify = {
-        ID = (builtins.readFile config.age.secrets.spotify-id.path);
-        Secret = (builtins.readFile config.age.secrets.spotify-secret.path);
-      };
+      # Spotify = {
+      #   ID = (builtins.readFile config.age.secrets.spotify-id.path);
+      #   Secret = (builtins.readFile config.age.secrets.spotify-secret.path);
+      # };
     };
   };
 
@@ -219,6 +221,9 @@
       "isal"
       "homeassistant_hardware"
       "zha"
+      "apple_tv"
+      "homekit"
+      "tradfri"
     ];
     config = {
       # Includes dependencies for a basic setup
@@ -229,20 +234,100 @@
         trusted_proxies = [ "::1" ];
         use_x_forwarded_for = true;
       };
+      automation = "!include automations.yaml";
     };
   };
 
-  # services.nextcloud = {                
-  #     enable = true;                   
-  #     package = pkgs.nextcloud30;
-  #     https = true;
-  #     hostName = "caldav.atarbinian.com";
-  #     extraApps = {
-  #       inherit (config.services.nextcloud.package.packages.apps) calendar tasks;
-  #     };
-  #     extraAppsEnable = true;
-  # };
+  age.secrets.nextcloud-admin.file = ../../secrets/nextcloud-admin.age;
+  age.secrets.nextcloud-db-password.file = ../../secrets/nextcloud-db-password.age;
+  services.nextcloud = {
+      enable = true;
+      package = pkgs.nextcloud31;
+      https = true;
+      hostName = "cloud.atarbinian.com";
+      extraApps = {
+        inherit (config.services.nextcloud.package.packages.apps) calendar tasks onlyoffice richdocuments;
+      };
+      database.createLocally = true;
+      extraAppsEnable = true;
+      config.adminpassFile = config.age.secrets.nextcloud-admin.path;
+      config.dbtype = "pgsql";
+      # config.dbuser = "Supreme5753";
+      # config.dbname = "pgsql";
+      # config.dbhost = "localhost";
+      # config.dbpassFile = config.age.secrets.nextcloud-db-password.path;
+      settings.enabledPreviewProviders = [
+        "OC\\Preview\\BMP"
+        "OC\\Preview\\GIF"
+        "OC\\Preview\\JPEG"
+        "OC\\Preview\\Krita"
+        "OC\\Preview\\MarkDown"
+        "OC\\Preview\\MP3"
+        "OC\\Preview\\OpenDocument"
+        "OC\\Preview\\PNG"
+        "OC\\Preview\\TXT"
+        "OC\\Preview\\XBitmap"
+        "OC\\Preview\\HEIC"
+      ];
+  };
 
+  systemd.services.nextcloud-config-collabora = let
+    inherit (config.services.nextcloud) occ;
+
+    wopi_url = "http://[::1]:${toString config.services.collabora-online.port}";
+    public_wopi_url = "https://office.atarbinian.com";
+    wopi_allowlist = lib.concatStringsSep "," [
+      "10.0.0.1"
+      "127.0.0.1"
+      "::1"
+    ];
+  in {
+    wantedBy = ["multi-user.target"];
+    after = ["nextcloud-setup.service" "coolwsd.service"];
+    requires = ["coolwsd.service"];
+    script = ''
+      ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_url --value ${lib.escapeShellArg wopi_url}
+      ${occ}/bin/nextcloud-occ config:app:set richdocuments public_wopi_url --value ${lib.escapeShellArg public_wopi_url}
+      ${occ}/bin/nextcloud-occ config:app:set richdocuments wopi_allowlist --value ${lib.escapeShellArg wopi_allowlist}
+      ${occ}/bin/nextcloud-occ richdocuments:setup
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+    };
+  };
+
+  services.collabora-online = {
+    enable = true;
+    port = 9980; # default
+    settings = {
+      # Rely on reverse proxy for SSL
+      ssl = {
+        enable = false;
+        termination = true;
+      };
+
+      # Listen on loopback interface only, and accept requests from ::1
+      net = {
+        listen = "loopback";
+        post_allow.host = ["::1"];
+      };
+
+      # Restrict loading documents from WOPI Host nextcloud.example.com
+      storage.wopi = {
+        "@allow" = true;
+        host = ["cloud.atarbinian.com"];
+      };
+
+      # Set FQDN of server
+      server_name = "office.atarbinian.com";
+    };
+  };
+
+  services.onlyoffice = {
+    enable = false;
+    hostname = "office.atarbinian.com";
+    port = 7845;
+  };
 
 
   users = {
@@ -265,6 +350,7 @@
     users."kavita" = {
       extraGroups = [ "media" ];
     };
+    # users."ddclient" = { };
     # users."bazarr" = {
     #   extraGroups = [ "media" ];
     # };
