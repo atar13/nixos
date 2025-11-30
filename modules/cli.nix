@@ -11,7 +11,7 @@
   };
 
   programs.direnv = {
-    enable = true;
+    enable = false;
     silent = true;
     loadInNixShell = true;
   };
@@ -27,7 +27,7 @@
     fzf
     ripgrep
     fd
-    lfs
+    dysk
     zoxide
     starship
     stow
@@ -91,15 +91,15 @@
 
     nurl
     comma
-    inputs.agenix.packages.${pkgs.system}.default
-    inputs.compose2nix.packages.${pkgs.system}.default
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.compose2nix.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     imagemagick
     timetagger_cli
 
     dig
     just
-    du-dust
+    dust
 
     openjdk
     nrf-command-line-tools

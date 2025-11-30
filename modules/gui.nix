@@ -20,14 +20,14 @@
     firefox
     brave
     # ungoogled-chromium
-    chromium
+    # chromium
 
     thunderbird
     signal-desktop
     slack
     discord
 
-    bitwarden
+    bitwarden-desktop
 
     pcmanfm
     CuboCore.corefm
@@ -95,5 +95,11 @@
     delfin
     jellyfin-media-player
     smile
+    libnotify
+    sticky
+    sticky-notes
+    rhythmbox
+    planify
+    nextcloud-client
   ];
 }

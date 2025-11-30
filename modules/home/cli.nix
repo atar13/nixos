@@ -1,10 +1,18 @@
-# { lib, inputs, ... }:
-{ dotfiles, username, ... }:
+{ dotfiles, pkgs, ... }:
 # with lib;
 {
+  home.packages = with pkgs; [
+    antidote
+  ];
+
   home.file = {
     ".zshrc".source = "${dotfiles}/zsh/.zshrc";
     # ".zshrc".source = "/home/atarbinian/dotfiles/zsh/.zshrc";
+    # ".zcomet/bin/".source = builtins.fetchFromGitHub {
+    #   owner = "agkozak";
+    #   repo = "zcomet";
+    #   rev = "3dfe6f837479c6731e74400a233739500ec6d648";
+    # };
   };
 
   xdg.configFile = {

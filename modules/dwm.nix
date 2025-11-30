@@ -62,7 +62,7 @@ with lib;
       xorg.xinit
       
       # dwm-status
-      inputs.dmenu.packages.${pkgs.system}.default
+      inputs.dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
 
       xss-lock
       # i3lock-color

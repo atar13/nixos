@@ -33,8 +33,8 @@ in
     "file:///home/${username}/nixos"
     "file:///home/${username}/dotfiles"
     "file:///home/${username}/Pictures"
+    "file:///home/${username}/Nextcloud"
   ];
-
 
   services.flameshot.enable = true;
   services.flameshot.settings = {

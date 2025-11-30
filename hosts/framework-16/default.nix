@@ -190,7 +190,7 @@
       old-pkgs.segger-jlink
       acpi
       virtiofsd
-      barrier
+      # barrier
       # inputs.nix-xilinx.packages.${pkgs.system}.vitis
       # inputs.nix-xilinx.packages.${pkgs.system}.vitis_hls
       # inputs.nix-xilinx.packages.${pkgs.system}.vivado
@@ -322,6 +322,7 @@
     "segger-jlink-qt4-794a"
     "googleearth-pro-7.3.4.8248"
     "electron-12.2.3"
+    "qtwebengine-5.15.19"
   ];
   # enable udev rules from packages
   services.udev.packages = [

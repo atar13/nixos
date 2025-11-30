@@ -53,6 +53,7 @@
           viktorqvarfordt.vscode-pitch-black-theme
           arrterian.nix-env-selector
           james-yu.latex-workshop
+          valentjn.vscode-ltex
         ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           # {
           #   name = "firefox-devtools-theme";

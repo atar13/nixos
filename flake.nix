@@ -70,7 +70,10 @@
               "googleearth-pro-7.3.4.8248"
               "segger-jlink-qt4-796s"
               "segger-jlink-qt4-810"
+              "segger-jlink-qt4-874"
               "electron-33.4.11"
+              "qtwebengine-5.15.19"
+              "electron-36.9.5"
             ];
           };
           old-pkgs = import nixpkgs-old {

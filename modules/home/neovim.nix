@@ -184,16 +184,21 @@ let
 in
 {
   xdg.configFile = {
-    "nvim/lua" = {
+    "nvim/" = {
       recursive = true;
-      source = "${dotfiles}/nvim/.config/nvim/lua";
-      # source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua/";
+      # source = "${dotfiles}/nvim/.config/nvim/";
+      source = "/home/atarbinian/dotfiles/nvim/.config/nvim/";
     };
-    "nvim/after" = {
-      recursive = true;
-      source = "${dotfiles}/nvim/.config/nvim/after";
-      # source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
-    };
+    # "nvim/lua" = {
+    #   recursive = true;
+    #   # source = "${dotfiles}/nvim/.config/nvim/lua";
+    #   source = "/home/atarbinian/dotfiles/nvim/.config/nvim/lua/";
+    # };
+    # "nvim/after" = {
+    #   recursive = true;
+    #   # source = "${dotfiles}/nvim/.config/nvim/after";
+    #   source = "/home/atarbinian/dotfiles/nvim/.config/nvim/after";
+    # };
   };
 
   home.packages = with pkgs; [
@@ -221,108 +226,107 @@ in
     vimdiffAlias = true;
     extraPackages = with pkgs; [
     ];
-    plugins = with pkgs.vimPlugins; [
-      lazy-nix-helper-nvim
-      lazy-nvim
-
-      telescope-nvim
-      telescope-ui-select-nvim
-      telescope-fzf-native-nvim
-      telescope-repo-nvim
-      vim-prosession
-      vim-obsession
-      plenary-nvim
-      vim-rooter
-
-      nvim-lspconfig
-      # nvim-cmp-unstable
-      cmp-nvim-lsp
-      cmp-buffer
-      cmp-path
-      cmp_luasnip
-      cmp-nvim-lua
-      luasnip
-      friendly-snippets
-      nvim-lint
-      conform-nvim
-
-      oxocarbon-nvim
-      nightfox-nvim
-      noctis-nvim
-      lush-nvim
-
-      barbar-nvim
-      nvim-web-devicons
-
-      comment-nvim
-      vim-fugitive
-      gitsigns-nvim
-      undotree
-      icon-picker-nvim
-      nvim-tree-lua
-      lualine-nvim
-      nvim-navic
-      knap
-      vim-suda
-      duck-nvim
-      toggle-lsp-diagnostics-nvim
-      vim-tmux-navigator
-      toggleterm-nvim
-      todo-comments-nvim
-      # nvim-treesitter
-      nvim-treesitter.withAllGrammars
-      # treesitterWithGrammars
-      # (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
-      rustaceanvim
-    ];
-    extraLuaConfig = ''
-      require("config")
-
-      local plugins = {
-      ${pluginList config.programs.neovim.plugins}
-      }
-      local lazy_nix_helper_path = "${lazy-nix-helper-nvim}"
-      if not vim.loop.fs_stat(lazy_nix_helper_path) then
-        lazy_nix_helper_path = vim.fn.stdpath("data") .. "/lazy_nix_helper/lazy_nix_helper.nvim"
-        if not vim.loop.fs_stat(lazy_nix_helper_path) then
-          vim.fn.system({
-            "git",
-            "clone",
-            "--filter=blob:none",
-            "https://github.com/b-src/lazy_nix_helper.nvim.git",
-            lazy_nix_helper_path,
-          })
-        end
-      end
-
-      -- add the Lazy Nix Helper plugin to the vim runtime
-      vim.opt.rtp:prepend(lazy_nix_helper_path)
-
-      -- call the Lazy Nix Helper setup function
-      local non_nix_lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-      local lazy_nix_helper_opts = { lazypath = non_nix_lazypath, input_plugin_table = plugins }
-      require("lazy-nix-helper").setup(lazy_nix_helper_opts)
-
-      -- get the lazypath from Lazy Nix Helper
-      local lazypath = require("lazy-nix-helper").lazypath()
-      if not vim.loop.fs_stat(lazypath) then
-        vim.fn.system({
-          "git",
-          "clone",
-          "--filter=blob:none",
-          "https://github.com/folke/lazy.nvim.git",
-          "--branch=stable", -- latest stable release
-          lazypath,
-        })
-      end
-      vim.opt.rtp:prepend(lazypath)
-
-      require("lazy").setup({
-        {
-          priority = 1,
-          import = "plugins",
-        },
-      })
-    '';
+    # plugins = with pkgs.vimPlugins; [
+    #   lazy-nix-helper-nvim
+    #   lazy-nvim
+    #
+    #   telescope-nvim
+    #   telescope-ui-select-nvim
+    #   telescope-fzf-native-nvim
+    #   telescope-repo-nvim
+    #   vim-prosession
+    #   vim-obsession
+    #   plenary-nvim
+    #   vim-rooter
+    #
+    #   nvim-lspconfig
+    #   # nvim-cmp-unstable
+    #   cmp-nvim-lsp
+    #   cmp-buffer
+    #   cmp-path
+    #   cmp_luasnip
+    #   cmp-nvim-lua
+    #   luasnip
+    #   friendly-snippets
+    #   nvim-lint
+    #   conform-nvim
+    #
+    #   oxocarbon-nvim
+    #   nightfox-nvim
+    #   noctis-nvim
+    #   lush-nvim
+    #
+    #   barbar-nvim
+    #   nvim-web-devicons
+    #
+    #   comment-nvim
+    #   vim-fugitive
+    #   gitsigns-nvim
+    #   undotree
+    #   icon-picker-nvim
+    #   nvim-tree-lua
+    #   lualine-nvim
+    #   nvim-navic
+    #   knap
+    #   vim-suda
+    #   duck-nvim
+    #   toggle-lsp-diagnostics-nvim
+    #   vim-tmux-navigator
+    #   toggleterm-nvim
+    #   todo-comments-nvim
+    #   # nvim-treesitter
+    #   nvim-treesitter.withAllGrammars
+    #   # treesitterWithGrammars
+    #   # (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+    #   rustaceanvim
+    # ];
+    # extraLuaConfig = ''
+    #   require("config")
+    #
+    #   local plugins = {
+    #   ${pluginList config.programs.neovim.plugins}
+    #   }
+    #   local lazy_nix_helper_path = "${lazy-nix-helper-nvim}"
+    #   if not vim.loop.fs_stat(lazy_nix_helper_path) then
+    #     lazy_nix_helper_path = vim.fn.stdpath("data") .. "/lazy_nix_helper/lazy_nix_helper.nvim"
+    #     if not vim.loop.fs_stat(lazy_nix_helper_path) then
+    #       vim.fn.system({
+    #         "git",
+    #         "clone",
+    #         "--filter=blob:none",
+    #         "https://github.com/b-src/lazy_nix_helper.nvim.git",
+    #         lazy_nix_helper_path,
+    #       })
+    #     end
+    #   end
+    #
+    #   -- add the Lazy Nix Helper plugin to the vim runtime
+    #   vim.opt.rtp:prepend(lazy_nix_helper_path)
+    #
+    #   -- call the Lazy Nix Helper setup function
+    #   local non_nix_lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+    #   local lazy_nix_helper_opts = { lazypath = non_nix_lazypath, input_plugin_table = plugins }
+    #   require("lazy-nix-helper").setup(lazy_nix_helper_opts)
+    #
+    #   -- get the lazypath from Lazy Nix Helper
+    #   local lazypath = require("lazy-nix-helper").lazypath()
+    #   if not vim.loop.fs_stat(lazypath) then
+    #     vim.fn.system({
+    #       "git",
+    #       "clone",
+    #       "--filter=blob:none",
+    #       "https://github.com/folke/lazy.nvim.git",
+    #       "--branch=stable", -- latest stable release
+    #       lazypath,
+    #     })
+    #   end
+    #   vim.opt.rtp:prepend(lazypath)
+    #
+    #   require("lazy").setup({
+    #     spec = {
+    #       { import = "plugins", priority = 1}
+    #     },
+    #   })
+    # '';
   };
 }

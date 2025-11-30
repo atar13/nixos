@@ -1,6 +1,6 @@
 { pkgs, spicetify-nix, ... }:
 let
-  spicetify-pkgs = spicetify-nix.legacyPackages.${pkgs.system};
+  spicetify-pkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   imports = [
