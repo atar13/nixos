@@ -21,6 +21,15 @@ rebuild HOST WHEN:
 rebuild-impure HOST WHEN:
 	sudo nixos-rebuild {{WHEN}} --flake .#{{HOST}} --impure
 
+r:
+	sudo nixos-rebuild switch --flake .#`uname -n`
+
+r-impure:
+	sudo nixos-rebuild switch --flake .#`uname -n` --impure
+
+r-boot:
+	sudo nixos-rebuild boot --flake .#`uname -n`
+
 # https://nixos.wiki/wiki/NixOS:nixos-rebuild_build-vm
 # create a QEMU virtual machine with a specified host's config
 vm HOST:
