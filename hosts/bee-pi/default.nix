@@ -242,7 +242,7 @@
   age.secrets.nextcloud-db-password.file = ../../secrets/nextcloud-db-password.age;
   services.nextcloud = {
       enable = true;
-      package = pkgs.nextcloud31;
+      package = pkgs.nextcloud32;
       https = true;
       hostName = "cloud.atarbinian.com";
       extraApps = {
