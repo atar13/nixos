@@ -1,4 +1,3 @@
-# Auto-generated using compose2nix v0.2.1-pre.
 { pkgs, lib, ... }:
 
 {
@@ -11,15 +10,15 @@
 
   # Containers
   virtualisation.oci-containers.containers."timetagger-timetagger" = {
-    image = "ghcr.io/almarklein/timetagger:v23.9.2-nonroot";
+    image = "ghcr.io/almarklein/timetagger:v24.12.2-nonroot";
     environment = {
       TIMETAGGER_BIND = "0.0.0.0:8030";
-      TIMETAGGER_CREDENTIALS = "atarbinian:$2a$08$dnvtuebZQcSW078bwhJ8luOJO2YxXKZRzt4Jy6XVZfirey.c9wgom";
+      TIMETAGGER_CREDENTIALS = "atarbinian:$2a$08$dnvtuebZQcSW078bwhJ8luOJO2YxXKZRzt4Jy6XVZfirey.c9wgom,ttar10nt:$2a$08$lbPamjOtaQTVj/9vUHrin.vo8NSDE7kuW7WY5BVLoBuKDnfrW9SNy,test:$2a$08$7.sugRFzQ5bXWEAzSkjX1ubodQmH7WqxD7jfPVCWnr7wfy63cWkJu";
       TIMETAGGER_DATADIR = "/opt/_timetagger";
       TIMETAGGER_LOG_LEVEL = "info";
     };
     volumes = [
-      "/data/timetagger/:/opt/_timetagger:rw"
+      "/pool/data/timetagger/:/opt/_timetagger:rw"
     ];
     ports = [
       "8030:8030/tcp"

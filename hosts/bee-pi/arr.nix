@@ -4,32 +4,37 @@
 
   services.radarr = {
     enable = true;
-    dataDir = "/data/arr/radarr/";
+    dataDir = "/pool/data/arr/radarr/";
     user = "media";
   };
 
   services.sonarr = {
     enable = true;
-    dataDir = "/data/arr/sonarr/";
+    dataDir = "/pool/data/arr/sonarr/";
     user = "media";
   };
 
   services.lidarr = {
     enable = true;
-    dataDir = "/data/arr/lidarr/";
+    dataDir = "/pool/data/arr/lidarr/";
     group = "media";
   };
 
   services.readarr = {
     enable = true;
-    dataDir = "/data/arr/readarr/";
+    dataDir = "/pool/data/arr/readarr/";
     group = "media";
   };
 
-  services.bazarr.enable = true;
+  services.bazarr = {
+      enable = true;
+      user = "media";
+      group = "media";
+    };
 
   services.jellyseerr = {
     enable = true;
     port = 5055;
+    openFirewall = true;
   };
 }

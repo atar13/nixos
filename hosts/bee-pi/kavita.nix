@@ -11,7 +11,7 @@
     enable = true;
     # user = "books";
     settings.Port = 5000;
-    dataDir = "/data/kavita";
+    dataDir = "/pool/data/kavita";
     tokenKeyFile = config.age.secrets.kavita-token.path;
   };
 }

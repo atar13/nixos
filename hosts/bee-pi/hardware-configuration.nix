@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
@@ -16,31 +17,50 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/eb230048-ec23-4610-a0ea-440c356f4adc";
+    {
+      device = "/dev/disk/by-uuid/eb230048-ec23-4610-a0ea-440c356f4adc";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/424B-52F7";
+    {
+      device = "/dev/disk/by-uuid/424B-52F7";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/765ab0ca-ffa5-4a37-8838-f93b12eaf815"; }
+    [
+    { device = "/dev/disk/by-uuid/765ab0ca-ffa5-4a37-8838-f93b12eaf815"; }
     ];
 
   boot.swraid = {
     enable = true;
     mdadmConf = ''
-      	DEVICE partitions
-      	MAILADDR root
-      	ARRAY /dev/md/raid1array metadata=1.2 name=hopstpi:raid1array UUID=44f57963:2568d86a:097e35e3:f065ff43
+MAILADDR nobody@atarbinian.com
+ARRAY /dev/md/raid1array metadata=1.2 name=hopstpi:raid1array UUID=44f57963:2568d86a:097e35e3:f065ff43
+ARRAY /dev/md/1 metadata=1.2 spares=1 UUID=e64258cf:f9372536:41b32e7d:3b1ffffc
     '';
   };
+  # ARRAY /dev/md/0  metadata=1.2 UUID=99fdd8fe:e4b59547:84cdc402:2df9913f
+  # ARRAY /dev/md/raid1array  metadata=1.2 UUID=44f57963:2568d86a:097e35e3:f065ff43
+
 
   fileSystems."/data" = {
-    device = "/dev/md127";
+    device = "/dev/md/raid1array";
     fsType = "ext4";
+    options = [
+      "nofail"
+      "x-systemd.device-timeout=60"
+    ];
+  };
+
+  fileSystems."/pool" = {
+    device = "/dev/server_data_pool/lvdata";
+    fsType = "ext4";
+    options = [
+      "nofail"
+      "x-systemd.device-timeout=60"
+    ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

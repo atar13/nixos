@@ -105,5 +105,6 @@
 
     rust-analyzer
     fastfetch
+    immich-go
   ];
 }

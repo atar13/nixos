@@ -6,7 +6,7 @@
     ./wireguard.nix
     (import ./nginx.nix { inherit config; })
     ./ddns.nix
-    (import ./immich.nix { inherit pkgs lib config; })
+    # (import ./immich.nix { inherit pkgs lib config; })
     ./arr.nix
     ./kavita.nix
     (import ./caldav.nix { inherit config pkgs; })

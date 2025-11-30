@@ -1,7 +1,7 @@
 { lib, inputs, config, pkgs, username, ... }:
 {
   imports = [
-    (import ../../../../modules/home/cli.nix { inherit (inputs) dotfiles; inherit username; })
+    (import ../../../../modules/home/cli.nix { inherit (inputs) dotfiles; inherit pkgs; })
     (import ../../../../modules/home/neovim.nix { inherit (inputs) dotfiles; inherit pkgs config lib; })
   ];
 

@@ -6,7 +6,7 @@ let
     tag = "arm64v8-1.106.4-noml";
     digest = "sha256:6a525793a9082a02ada8c046d1b651a8c8004f76b13eba4c26181f6b583811ed";
   };
-    wrapImage = { name, imageName, tag, imageDigest, sha256, entrypoint }:
+  wrapImage = { name, imageName, tag, imageDigest, sha256, entrypoint }:
     pkgs.dockerTools.buildImage ({
       name = name;
       tag = tag;
@@ -40,12 +40,12 @@ in
   # Containers
   virtualisation.oci-containers.containers."immich" = {
     imageFile = wrapImage {
-        name = "immich";
-        imageName = "${immich.image}";
-        tag = immich.tag;
-        imageDigest = "${immich.digest}";
-        sha256 = "Tp4fxPIHEIXOWImcLFLxVP7stFgNXpTqomDadddXIOg=";
-        entrypoint = [];
+      name = "immich";
+      imageName = "${immich.image}";
+      tag = immich.tag;
+      imageDigest = "${immich.digest}";
+      sha256 = "Tp4fxPIHEIXOWImcLFLxVP7stFgNXpTqomDadddXIOg=";
+      entrypoint = [ ];
     };
     image = "${immich.image}:${immich.tag}";
     environment = {

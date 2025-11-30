@@ -36,13 +36,21 @@ in
   "kavita-token.age".publicKeys = authorized;
 
   "radicale-users.age".publicKeys = authorized;
-
-  # "acme-porkbun.age".publicKeys = authorized;
+  "acme-porkbun.age".publicKeys = authorized;
 
   "ddns-config-porkbun.age".publicKeys = authorized;
 
   "immich-db-password.age".publicKeys = authorized;
   "immich-redis-password.age".publicKeys = authorized;
   "immich-typesense-api-key.age".publicKeys = authorized;
+
+  "joplin-env.age".publicKeys = authorized;
+  "webdav.age".publicKeys = authorized;
+  
+  "spotify.id.age".publicKeys = authorized;
+  "spotify-secret.age".publicKeys = authorized;
+
+  "nextcloud-admin.age".publicKeys = authorized;
+  "nextcloud-db-password.age".publicKeys = authorized;
 }
 

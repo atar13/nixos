@@ -21,7 +21,7 @@
     enable = true;
     mdadmConf = ''
       	DEVICE partitions
-      	MAILADDR root
+      	MAILADDR nobody@atarbinian.com
       	ARRAY /dev/md/raid1array metadata=1.2 name=hopstpi:raid1array UUID=44f57963:2568d86a:097e35e3:f065ff43
     '';
   };
