@@ -88,11 +88,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1764494623,
-        "narHash": "sha256-7v/nKgWlWJpQHiIOB4Z5kyN+9tne3Ibv6txVNwx6aXY=",
+        "lastModified": 1764524614,
+        "narHash": "sha256-YS1NNQEfSEa/CX7+6FPg2ipSmYbbFALElltPuNr4EFQ=",
         "owner": "atar13",
         "repo": "dotfiles",
-        "rev": "a70304c8b6bd8ef8e51451c4b0bd1d32063c58de",
+        "rev": "5edf9da7ae79c375ee202911778cecf18be9e5a6",
         "type": "github"
       },
       "original": {
