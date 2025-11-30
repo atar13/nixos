@@ -56,8 +56,12 @@
 
   programs.ssh = {
     enable = true;
-    matchBlocks."pi" = {
+    matchBlocks."bee" = {
       hostname = "10.0.0.1";
+      user = "atarbinian";
+    };
+    matchBlocks."pi" = {
+      hostname = "10.0.0.23";
       user = "atarbinian";
     };
     matchBlocks."datahub-gpu" = {
