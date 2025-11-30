@@ -10,12 +10,6 @@
     };
   };
 
-  programs.direnv = {
-    enable = false;
-    silent = true;
-    loadInNixShell = true;
-  };
-
   environment.systemPackages = with pkgs; [
     git
     tmux
